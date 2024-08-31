@@ -1,0 +1,7 @@
+name: Vanilla
+version: '${version}'
+main: ru.laimcraft.vanilla.Core
+api-version: '1.21'
+load: STARTUP
+authors: [LaimCraft]
+website: https://github.com/LaimCraft/Vanilla
