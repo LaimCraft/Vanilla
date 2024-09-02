@@ -42,6 +42,10 @@ public class LoginCommand implements CommandExecutor {
             player.sendMessage(ChatColor.GREEN + "Вы успешно авторизовались!");
             core.AuthPlayers.add(player.getName().toLowerCase());
             core.accounts.authDateUpdate(player.getName());
+            for(Player playerSend : Bukkit.getOnlinePlayers()) {
+                if(playerSend.getName().equalsIgnoreCase(player.getName())) continue;
+                playerSend.sendMessage(ChatColor.DARK_GREEN + player.getPlayer().getName());}
+            core.utils.tabColorUpdate(player);
         return true;}
         player.sendMessage(ChatColor.DARK_RED + "Вы ввели неверный пароль!");
         return true;

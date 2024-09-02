@@ -16,3 +16,17 @@ commands:
       - register
       - reg
     usage: "/register <password>"
+  chest:
+    aliases:
+      - chest
+      - c
+    usage: "/chest <add/remove> <player>"
+  coins:
+    aliases:
+      - coins
+    usage: "/coins"
+  vanish:
+    aliases:
+      - vanish
+      - v
+    usage: "/vanish"
