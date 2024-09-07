@@ -2,10 +2,9 @@ package ru.laimcraft.vanilla.Moduls;
 
 import org.bukkit.ChatColor;
 import org.bukkit.event.player.PlayerJoinEvent;
-import ru.laimcraft.vanilla.Components.Auth.AuthRESULT;
-import ru.laimcraft.vanilla.Components.Auth.AuthType;
+import ru.laimcraft.vanilla.components.auth.AuthRESULT;
+import ru.laimcraft.vanilla.components.auth.AuthType;
 import ru.laimcraft.vanilla.Core;
-import ru.laimcraft.vanilla.DataBase.MySQL.MySQLAccounts;
 
 public class AuthModule {
     private Core core;

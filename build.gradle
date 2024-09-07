@@ -15,10 +15,13 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
+    flatDir {
+        dirs 'C:\\GitHub\\lib'
+    }
 }
 
 dependencies {
-    compileOnly "org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT"
+    implementation 'org.spigotmc:spigot:1.21.1'
 }
 
 def targetJavaVersion = 21
