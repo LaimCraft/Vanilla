@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import ru.laimcraft.vanilla.components.player.skills.PlayerFarmer;
+import ru.laimcraft.vanilla.database.ResultSetGetPlayer;
 import ru.laimcraft.vanilla.database.mysql.MySQLVanillaPlayer;
 
 import java.sql.ResultSet;
@@ -39,23 +40,19 @@ public class PlayerStatus {
         this.playerName = this.player.getName(); update();}
 
     private void update(){
-        ResultSet resultSet = new MySQLVanillaPlayer().getPlayer(playerName);
-        try(resultSet) {
-            this.playerName = resultSet.getString(1);
-            this.level = resultSet.getInt(2);
-            this.xp = resultSet.getInt(3);
-            this.hp = resultSet.getDouble(4);
-            this.MaxHP = resultSet.getInt(5);
-            this.mp = resultSet.getInt(6);
-            this.MaxMP = resultSet.getInt(7);
-            this.hunger = resultSet.getInt(8);
-            this.MaxHunger = resultSet.getInt(9);
-            this.saturation = resultSet.getFloat(10);
-            this.MaxSaturation = resultSet.getInt(11);
-            skillsLoader();
-        } catch (SQLException ex) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "SQLException PlayerStatus Method -> " + ex.toString());
-            status = false;}
+        ResultSetGetPlayer resultSetGetPlayer = new MySQLVanillaPlayer().getPlayer(playerName);
+        this.playerName = resultSetGetPlayer.getPlayerName();
+        this.level = resultSetGetPlayer.getLevel();
+        this.xp = resultSetGetPlayer.getXP();
+        this.hp = resultSetGetPlayer.getHP();
+        this.MaxHP = resultSetGetPlayer.getMaxHP();
+        this.mp = resultSetGetPlayer.getMP();
+        this.MaxMP = resultSetGetPlayer.getMaxMP();
+        this.hunger = resultSetGetPlayer.getHunger();
+        this.MaxHunger = resultSetGetPlayer.getMaxHunger();
+        this.saturation = resultSetGetPlayer.getSaturation();
+        this.MaxSaturation = resultSetGetPlayer.getMaxSaturation();
+        skillsLoader();
     }
 
     private void skillsLoader() {

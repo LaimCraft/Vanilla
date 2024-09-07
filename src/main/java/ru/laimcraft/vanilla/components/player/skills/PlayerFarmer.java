@@ -3,6 +3,7 @@ package ru.laimcraft.vanilla.components.player.skills;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import ru.laimcraft.vanilla.components.player.PlayerStatus;
+import ru.laimcraft.vanilla.database.ResultSetGetPlayerFarmer;
 import ru.laimcraft.vanilla.database.mysql.MySQLVanillaPlayerFarmer;
 
 import java.sql.ResultSet;
@@ -16,18 +17,14 @@ public class PlayerFarmer {
     public PlayerFarmer() {}
     public PlayerFarmer(PlayerStatus player) {this.playerStatus = player;}
     private void update(){
-        ResultSet resultSet = new MySQLVanillaPlayerFarmer().getPlayer(playerStatus.getPlayerName());
-        try(resultSet) {
-            this.level = resultSet.getInt(2);
-            this.xp = resultSet.getInt(3);
-            this.load = true;
-        } catch (SQLException ex) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "SQLException PlayerStatus Method -> " + ex.toString());
-            load = false;}}
+        ResultSetGetPlayerFarmer resultSetGetPlayerFarmer = new MySQLVanillaPlayerFarmer().getPlayer(playerStatus.getPlayerName());
+        this.level = resultSetGetPlayerFarmer.getLevel();
+        this.xp = resultSetGetPlayerFarmer.getXP();
+        this.load = true;}
 
     public PlayerStatus getPlayerStatus() {return playerStatus;}
     public int getLevel() {return level;}
-    public int getXp() {return xp;}
+    public int getXP() {return xp;}
     public void addLevel(int level) {
         new MySQLVanillaPlayerFarmer().addFarmerLevel(playerStatus.getPlayerName(), level);
         this.level = this.level + level;

@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Vanilla.iml" filepath="$PROJECT_DIR$/.idea/modules/Vanilla.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Vanilla.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Vanilla.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Vanilla.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Vanilla.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Vanilla.iml" filepath="$PROJECT_DIR$/Vanilla.iml" />
     </modules>
   </component>
 </project>

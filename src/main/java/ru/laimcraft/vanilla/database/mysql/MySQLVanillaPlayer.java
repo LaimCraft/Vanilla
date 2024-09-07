@@ -2,6 +2,7 @@ package ru.laimcraft.vanilla.database.mysql;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import ru.laimcraft.vanilla.database.ResultSetGetPlayer;
 
 import java.sql.*;
 
@@ -17,18 +18,44 @@ public class MySQLVanillaPlayer {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL ERROR: " + ex);
             return false;}}
 
-    public ResultSet getPlayer(String login) {
+
+    public ResultSetGetPlayer getPlayer(String login) {
         try (Connection connection = DriverManager.getConnection(settings.host, settings.user, settings.password)) {
             ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM `vanilla`.`players` WHERE player = '"+login+"' LIMIT 1;");
-            return resultSet;
+            while (resultSet.next()) {
+                return new ResultSetGetPlayer(
+                        resultSet.getString(1),
+                        resultSet.getInt(2),
+                        resultSet.getInt(3),
+                        resultSet.getDouble(4),
+                        resultSet.getInt(5),
+                        resultSet.getInt(6),
+                        resultSet.getInt(7),
+                        resultSet.getInt(8),
+                        resultSet.getInt(9),
+                        resultSet.getFloat(10),
+                        resultSet.getInt(11)
+                );
+            } return null;
         } catch (Exception ex) {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL ERROR: " + ex);
             return null;}}
 
-    public ResultSet get(String login, String parameter) {
+    /*public ResultSet get(String login, String parameter) {
         try (Connection connection = DriverManager.getConnection(settings.host, settings.user, settings.password)) {
             ResultSet resultSet = connection.createStatement().executeQuery("SELECT '"+parameter+"' FROM `vanilla`.`players` WHERE player = '"+login+"' LIMIT 1;");
             return resultSet;
+        } catch (Exception ex) {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL ERROR: " + ex);
+            return null;}}*/
+
+    public String getPlayerName(String login) {
+        String parameter = "player";
+        try (Connection connection = DriverManager.getConnection(settings.host, settings.user, settings.password)) {
+            ResultSet resultSet = connection.createStatement().executeQuery("SELECT '"+parameter+"' FROM `vanilla`.`players` WHERE player = '"+login+"' LIMIT 1;");
+            while (resultSet.next()) {
+                return resultSet.getString(1);
+            } return null;
         } catch (Exception ex) {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL ERROR: " + ex);
             return null;}}

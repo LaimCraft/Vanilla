@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="Vanilla">
-    <output-path>$USER_HOME$/OneDrive/Рабочий стол/VANILLASERVER/plugins</output-path>
-    <root id="archive" name="Vanilla.jar">
-      <element id="module-output" name="Vanilla.main" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
-    </root>
-  </artifact>
-</component>

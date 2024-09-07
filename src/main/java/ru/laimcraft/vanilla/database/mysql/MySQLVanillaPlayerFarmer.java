@@ -2,6 +2,7 @@ package ru.laimcraft.vanilla.database.mysql;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import ru.laimcraft.vanilla.database.ResultSetGetPlayerFarmer;
 
 import java.sql.*;
 
@@ -17,10 +18,15 @@ public class MySQLVanillaPlayerFarmer {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL ERROR: " + ex);
             return false;}}
 
-    public ResultSet getPlayer(String login) {
+    public ResultSetGetPlayerFarmer getPlayer(String login) {
         try (Connection connection = DriverManager.getConnection(settings.host, settings.user, settings.password)) {
-            ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM `vanilla`.`farmer` WHERE player = '"+login+"' LIMIT 1;");
-            return resultSet;
+            ResultSet resultSet = connection.createStatement().executeQuery("SELECT 'player' FROM `vanilla`.`farmer` WHERE player = '"+login+"' LIMIT 1;");
+            while (resultSet.next()) {
+                return new ResultSetGetPlayerFarmer(
+                        resultSet.getString(1),
+                        resultSet.getInt(2),
+                        resultSet.getInt(3));
+            } return null;
         } catch (Exception ex) {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL ERROR: " + ex);
             return null;}}
