@@ -7,7 +7,7 @@ import ru.laimcraft.vanilla.Core;
 import java.sql.*;
 
 public class MySQLChestAccess {
-    private MySQLSettings settings = new MySQLSettings();
+    private Settings settings = new Settings();
     private Core core;
     public MySQLChestAccess(Core core) {this.core=core;}
 

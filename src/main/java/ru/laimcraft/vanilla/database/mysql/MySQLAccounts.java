@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.Date;
 
 public class MySQLAccounts {
-    private MySQLSettings settings = new MySQLSettings();
+    private Settings settings = new Settings();
     private Core core;
     public MySQLAccounts(Core core) {this.core=core;}
 

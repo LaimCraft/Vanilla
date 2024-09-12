@@ -7,7 +7,7 @@ import ru.laimcraft.vanilla.database.ResultSetGetPlayer;
 import java.sql.*;
 
 public class MySQLVanillaPlayer {
-    private MySQLSettings settings = new MySQLSettings();
+    private Settings settings = new Settings();
     public MySQLVanillaPlayer() {}
 
     public boolean create(String login) {
@@ -52,7 +52,8 @@ public class MySQLVanillaPlayer {
     public String getPlayerName(String login) {
         String parameter = "player";
         try (Connection connection = DriverManager.getConnection(settings.host, settings.user, settings.password)) {
-            ResultSet resultSet = connection.createStatement().executeQuery("SELECT '"+parameter+"' FROM `vanilla`.`players` WHERE player = '"+login+"' LIMIT 1;");
+            ResultSet resultSet = connection.createStatement().executeQuery("SELECT '"+parameter+"' FROM `vanilla`.`players` WHERE " +
+                    parameter+" = '"+login+"';");
             while (resultSet.next()) {
                 return resultSet.getString(1);
             } return null;

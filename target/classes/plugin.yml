@@ -1,0 +1,32 @@
+name: Vanilla
+version: '1.1.0'
+main: ru.laimcraft.vanilla.Core
+api-version: '1.21'
+load: STARTUP
+authors: [LaimCraft]
+website: https://github.com/LaimCraft/Vanilla
+commands:
+  login:
+    aliases:
+      - login
+      - l
+    usage: "/login <password>"
+  register:
+    aliases:
+      - register
+      - reg
+    usage: "/register <password>"
+  chest:
+    aliases:
+      - chest
+      - c
+    usage: "/chest <add/remove> <player>"
+  coins:
+    aliases:
+      - coins
+    usage: "/coins"
+  vanish:
+    aliases:
+      - vanish
+      - v
+    usage: "/vanish"

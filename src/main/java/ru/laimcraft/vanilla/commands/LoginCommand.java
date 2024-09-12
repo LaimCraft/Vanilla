@@ -11,6 +11,8 @@ import ru.laimcraft.vanilla.Core;
 import ru.laimcraft.vanilla.components.player.CreateAllDataBaseColumns;
 import ru.laimcraft.vanilla.components.player.PlayerStatus;
 
+import java.util.Objects;
+
 public class LoginCommand implements CommandExecutor {
     private Core core;
     public LoginCommand(Core core) {this.core=core;}
@@ -36,18 +38,18 @@ public class LoginCommand implements CommandExecutor {
         if(!login.equals(player.getName().toLowerCase())) {
             player.sendMessage(ChatColor.DARK_RED + "Вы ещё не зарегистрировались!");
         return true;}
-        if(core.AuthPlayers.contains(player.getName().toLowerCase())) {
+        if(Core.AuthPlayers.contains(player.getName().toLowerCase())) {
             player.sendMessage(ChatColor.RED + "Вы уже авторизовались!");
         return true;}
         if(Utils.getSHA512(args[0]).equals(core.accounts.getPasswordByLogin(player.getName()))) {
             player.sendMessage(ChatColor.GREEN + "Вы успешно авторизовались!");
             CreateAllDataBaseColumns createAllDataBaseColumns = new CreateAllDataBaseColumns(core, player);
-            core.players.put(player.getName().toLowerCase(), new PlayerStatus(player));
-            core.AuthPlayers.add(player.getName().toLowerCase());
+            Core.players.put(player.getName().toLowerCase(), new PlayerStatus(player));
+            Core.AuthPlayers.add(player.getName().toLowerCase());
             core.accounts.authDateUpdate(player.getName());
             for(Player playerSend : Bukkit.getOnlinePlayers()) {
                 if(playerSend.getName().equalsIgnoreCase(player.getName())) continue;
-                playerSend.sendMessage(ChatColor.DARK_GREEN + player.getPlayer().getName());}
+                playerSend.sendMessage(ChatColor.DARK_AQUA + "Игрок " + Objects.requireNonNull(player.getPlayer()).getName() + " присоединился к игре");}
             Utils.vanillaTabColorUpdate(player);
         return true;}
         player.sendMessage(ChatColor.DARK_RED + "Вы ввели неверный пароль!");

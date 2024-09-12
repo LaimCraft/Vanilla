@@ -19,6 +19,7 @@ public class AuthChecker {
     public AuthChecker(Core core, BlockPlaceEvent event) {if(core.AuthPlayers.contains(event.getPlayer().getName().toLowerCase())) this.result = false;}
     public AuthChecker(Core core, BlockBreakEvent event) {if(core.AuthPlayers.contains(event.getPlayer().getName().toLowerCase())) this.result = false;}
     public AuthChecker(Core core, PlayerInteractEvent event) {if(core.AuthPlayers.contains(event.getPlayer().getName().toLowerCase())) this.result = false;}
+    public AuthChecker(Core core, PlayerExpChangeEvent event) {if(core.AuthPlayers.contains(event.getPlayer().getName().toLowerCase())) this.result = false;}
     public AuthChecker(Core core, InventoryClickEvent event) {if(!(event.getWhoClicked() instanceof Player player)) {this.result = false; return;}
         if(core.AuthPlayers.contains(player.getName().toLowerCase())) this.result = false;}
     public AuthChecker(Core core, EntityDamageByEntityEvent event) {

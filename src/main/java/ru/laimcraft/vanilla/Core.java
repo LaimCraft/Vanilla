@@ -2,6 +2,8 @@ package ru.laimcraft.vanilla;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import ru.laimcraft.utils.Utils;
+import ru.laimcraft.vanilla.Moduls.ScoreboardUpdateModule;
 import ru.laimcraft.vanilla.components.BlockInventory;
 import ru.laimcraft.vanilla.components.player.PlayerStatus;
 import ru.laimcraft.vanilla.database.mysql.MySQLAccounts;
@@ -13,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public final class Core extends JavaPlugin {
-    public HashMap<String, PlayerStatus> players = new HashMap<>();
+    public static HashMap<String, PlayerStatus> players = new HashMap<>();
     public List<String> vanishPlayers = new ArrayList<>();
     public List<String> chestModePlayers = new ArrayList<>();
     public static ArrayList<String> AuthPlayers = new ArrayList<>();
@@ -24,7 +26,10 @@ public final class Core extends JavaPlugin {
     @Override
     public void onEnable() {
         Bukkit.getPluginManager().registerEvents(new EventsHandler(this), this);
-        CommandsLoader commands = new CommandsLoader(this);}
+        CommandsLoader commands = new CommandsLoader(this);
+        CraftManager craftManager = new CraftManager();
+        //ScoreboardUpdateModule scoreboardUpdateModule = new ScoreboardUpdateModule(this);
+    }
 
     @Override
     public void onDisable() {

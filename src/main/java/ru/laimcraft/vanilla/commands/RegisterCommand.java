@@ -36,12 +36,12 @@ public class RegisterCommand implements CommandExecutor {
         if(core.accounts.create(player.getName(), Utils.getSHA512(args[0]))) {
             player.sendMessage(ChatColor.DARK_GREEN + "Вы успешно зарегистрировались!");
             //player.sendMessage(ChatColor.GREEN + "Для получения документов пройдите в мэрию");
-            core.AuthPlayers.add(player.getName().toLowerCase());
+            Core.AuthPlayers.add(player.getName().toLowerCase());
+            CreateAllDataBaseColumns createAllDataBaseColumns = new CreateAllDataBaseColumns(core, player);
+            Core.players.put(player.getName().toLowerCase(), new PlayerStatus(player));
         for(Player send : Bukkit.getOnlinePlayers()) {
             if(send.getName().equals(player.getName())) continue;
-            send.sendMessage(ChatColor.DARK_GREEN + "Игрок " + player.getName() + " зарегистрировался!");
-            CreateAllDataBaseColumns createAllDataBaseColumns = new CreateAllDataBaseColumns(core, player);
-            core.players.put(player.getName().toLowerCase(), new PlayerStatus(player));}
+            send.sendMessage(ChatColor.DARK_GREEN + "Игрок " + player.getName() + " зарегистрировался!");}
         Utils.vanillaTabColorUpdate(player);
         return true;}
         Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Системная ошибка в модуле авторизации [MySQLAccounts_01]");

@@ -32,15 +32,20 @@ public class PlayerStatus {
         if(!Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(player))) return;
         this.status = true;
         this.player = Bukkit.getPlayer(player);
-        this.playerName = this.player.getName(); update();}
+        this.playerName = this.player.getName();
+        update();}
     public PlayerStatus(Player player) {
         if(!Bukkit.getOnlinePlayers().contains(player)) return;
         this.status = true;
         this.player = player;
-        this.playerName = this.player.getName(); update();}
+        this.playerName = this.player.getName();
+        update();}
 
     private void update(){
         ResultSetGetPlayer resultSetGetPlayer = new MySQLVanillaPlayer().getPlayer(playerName);
+        if(resultSetGetPlayer == null) {
+            this.status = false;
+        return;}
         this.playerName = resultSetGetPlayer.getPlayerName();
         this.level = resultSetGetPlayer.getLevel();
         this.xp = resultSetGetPlayer.getXP();
@@ -58,7 +63,7 @@ public class PlayerStatus {
     private void skillsLoader() {
         playerFarmer = new PlayerFarmer(this);
     }
-
+    public boolean getStatus() {return this.status;}
     public Player getPlayer() {return player;}
     public String getPlayerName() {return playerName;}
     public boolean isStatus() {return status;}
@@ -74,10 +79,22 @@ public class PlayerStatus {
     public float getSaturation() {return saturation;}
     public int getMaxSaturation() {return MaxSaturation;}
 
-    public void resetHP() {new MySQLVanillaPlayer().reset(playerName, "HP");}
-    public void resetMP() {new MySQLVanillaPlayer().reset(playerName, "MP");}
-    public void resetHunger() {new MySQLVanillaPlayer().reset(playerName, "Hunger");}
-    public void resetSaturation() {new MySQLVanillaPlayer().reset(playerName, "Saturation");}
+    public void resetHP() {
+        new MySQLVanillaPlayer().reset(playerName, "HP");
+        hp = MaxHP;
+    }
+    public void resetMP() {
+        new MySQLVanillaPlayer().reset(playerName, "MP");
+        mp = MaxMP;
+    }
+    public void resetHunger() {
+        new MySQLVanillaPlayer().reset(playerName, "Hunger");
+        hunger = MaxHunger;
+    }
+    public void resetSaturation() {
+        new MySQLVanillaPlayer().reset(playerName, "Saturation");
+        saturation = MaxSaturation;
+    }
 
 
     public void addLevel(int level) {
@@ -95,14 +112,14 @@ public class PlayerStatus {
 
     public void addHP(double hp) {
         if((this.hp + hp) > this.MaxHP) {
-            new MySQLVanillaPlayer().add(playerName, "HP", this.MaxHP);
+            new MySQLVanillaPlayer().reset(playerName, "HP");
             this.hp = MaxHP;
         return;}
         new MySQLVanillaPlayer().add(playerName, "HP", hp);
         this.hp = this.hp + hp;}
 
     public boolean removeHP(double hp) { // false = playerDeath
-        if(this.hp < hp) return false;
+        if((this.hp - hp) < 0) return false;
         new MySQLVanillaPlayer().remove(playerName, "HP", hp);
         this.hp = this.hp - hp; return true;}
 
