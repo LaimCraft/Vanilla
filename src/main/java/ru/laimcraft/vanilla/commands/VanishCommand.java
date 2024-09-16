@@ -20,6 +20,7 @@ public class VanishCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
         if(1 == 1) return true;
         if(!(sender instanceof Player player)) return true;
+        if(!player.getName().equalsIgnoreCase("limeworld")) return true;
         if(core.vanishPlayers.contains(player.getName())) {
             core.vanishPlayers.remove(player.getName());
             Utils.vanillaTabColorUpdate(player);

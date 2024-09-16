@@ -2,9 +2,10 @@ package ru.laimcraft.vanilla;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import ru.laimcraft.utils.Utils;
-import ru.laimcraft.vanilla.Moduls.ScoreboardUpdateModule;
 import ru.laimcraft.vanilla.components.BlockInventory;
+import ru.laimcraft.vanilla.components.CraftManager.CraftMaterialAllowed;
+import ru.laimcraft.vanilla.components.CraftManager.MagicCraftingTable;
+import ru.laimcraft.vanilla.components.CraftManager.Crafts;
 import ru.laimcraft.vanilla.components.player.PlayerStatus;
 import ru.laimcraft.vanilla.database.mysql.MySQLAccounts;
 import ru.laimcraft.vanilla.database.mysql.MySQLChestAccess;
@@ -16,6 +17,9 @@ import java.util.List;
 
 public final class Core extends JavaPlugin {
     public static HashMap<String, PlayerStatus> players = new HashMap<>();
+    public static HashMap<String, MagicCraftingTable> MagicCraftingTablePlayers = new HashMap<>();
+    public static CraftMaterialAllowed craftMaterialAllowed = new CraftMaterialAllowed();
+    public static Crafts crafts = new Crafts();
     public List<String> vanishPlayers = new ArrayList<>();
     public List<String> chestModePlayers = new ArrayList<>();
     public static ArrayList<String> AuthPlayers = new ArrayList<>();

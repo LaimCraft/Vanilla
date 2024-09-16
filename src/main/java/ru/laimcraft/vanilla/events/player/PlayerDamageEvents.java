@@ -31,6 +31,7 @@ public class PlayerDamageEvents {
             status.resetSaturation();
             player.setHealth(0);
         return;}
+        //player.setExp(1);
         player.setHealth(status.getHP() / ((double) status.getMaxHP() / 20));
     }
 }

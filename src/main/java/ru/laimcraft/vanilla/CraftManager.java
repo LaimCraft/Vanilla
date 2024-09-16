@@ -1,14 +1,14 @@
 package ru.laimcraft.vanilla;
 
-import ru.laimcraft.vanilla.components.CraftManager.Crafts;
+import ru.laimcraft.vanilla.components.CraftManager.CraftingTableCrafts;
 
 public class CraftManager {
-    Crafts crafts;
+    CraftingTableCrafts crafts;
     public CraftManager() {
-        this.crafts = new Crafts();
+        this.crafts = new CraftingTableCrafts();
     }
 
-    public Crafts getCrafts() {
+    public CraftingTableCrafts getCrafts() {
         return crafts;
     }
 }

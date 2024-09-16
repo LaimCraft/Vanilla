@@ -1,9 +1,13 @@
 package ru.laimcraft.vanilla.events.inventory;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import ru.laimcraft.vanilla.Core;
+import ru.laimcraft.vanilla.components.CraftManager.MagicCraftingTable;
+import ru.laimcraft.vanilla.database.mysql.MySQLBlocks;
 
 public class InventoryOpenEvents {
     private Core core;
@@ -11,6 +15,7 @@ public class InventoryOpenEvents {
     public InventoryOpenEvents(Core core, InventoryOpenEvent event) {this.core = core; this.event = event; start();}
 
     private void start() {
+        if(onMagicCraftingTable()) {event.setCancelled(true); return;}
         if(event.getInventory().getLocation() == null) return;
         Block block = event.getInventory().getLocation().getBlock();
         String chestOwner = core.chests.getChestOwner(block.getWorld().getName() + ":" + block.getX() + ":" + block.getY() + ":" + block.getZ());
@@ -27,5 +32,19 @@ public class InventoryOpenEvents {
         for(String s : players) {if(s.equalsIgnoreCase(event.getPlayer().getName())) es = true;}
         if(es) return;
         event.setCancelled(true);
+    }
+
+    private boolean onMagicCraftingTable() {
+        if(event.getInventory().getLocation() == null) return false;
+        Block block = event.getInventory().getLocation().getBlock();
+        String specialBlock = MySQLBlocks.getBlockType(block.getWorld().getName() + ":" + block.getX()
+                + ":" + block.getY() + ":" + block.getZ());
+        if(specialBlock == null) return false;
+        if(!specialBlock.equals("MagicCraftingTable")) return false;
+        MagicCraftingTable magicCraftingTable = new MagicCraftingTable(
+                (Player) event.getPlayer(), event.getInventory().getLocation()
+        );
+        Core.MagicCraftingTablePlayers.put(event.getPlayer().getName().toLowerCase(), magicCraftingTable);
+        return true;
     }
 }

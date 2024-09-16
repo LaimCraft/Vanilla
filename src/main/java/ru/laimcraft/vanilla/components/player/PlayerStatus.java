@@ -124,7 +124,7 @@ public class PlayerStatus {
         this.hp = this.hp - hp; return true;}
 
     public void addMaxHP(int MaxHP) {
-        new MySQLVanillaPlayer().add(playerName, "MaxXP", MaxHP);
+        new MySQLVanillaPlayer().add(playerName, "MaxHP", MaxHP);
         this.MaxHP = this.MaxHP + MaxHP;}
 
     public void addMP(int mp) {

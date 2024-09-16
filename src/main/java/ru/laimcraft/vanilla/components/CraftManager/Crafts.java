@@ -1,22 +1,23 @@
 package ru.laimcraft.vanilla.components.CraftManager;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.inventory.ShapedRecipe;
-import ru.laimcraft.vanilla.components.namespacedkeys.CraftKeys;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Crafts {
+    public List<HashMap<Material, Integer>> crafts = new ArrayList<>();
+    public HashMap<HashMap<Material, Integer>, String> craftList = new HashMap<>();
     public Crafts() {
-        addMagicCraftingTableRecipe();
+        crafts.add(health());
+        craftList.put(health(), "health");
     }
 
-
-    private void addMagicCraftingTableRecipe() {
-        ShapedRecipe shapedRecipe = new ShapedRecipe(CraftKeys.MagicCraftingTable.getValue(), Items.getMagicCraftingTable());
-        shapedRecipe.shape("ABA", "BCB", "ABA");
-        shapedRecipe.setIngredient('A', Material.CRYING_OBSIDIAN);
-        shapedRecipe.setIngredient('B', Material.DIAMOND_BLOCK);
-        shapedRecipe.setIngredient('C', Material.NETHERITE_BLOCK);
-        Bukkit.addRecipe(shapedRecipe);
+    private HashMap<Material, Integer> health() {
+        HashMap<Material, Integer> craft = new HashMap<>();
+        craft.put(Material.REDSTONE_BLOCK, 13);
+        return craft;
     }
 }
