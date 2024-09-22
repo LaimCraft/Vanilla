@@ -1,6 +1,5 @@
 package ru.laimcraft.vanilla.events.blocks;
 
-import net.minecraft.world.entity.ai.sensing.NearestVisibleLivingEntitySensor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

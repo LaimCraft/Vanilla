@@ -22,6 +22,9 @@ public class PlayerDamageEvents {
             event.setCancelled(true);
         return;}
         double damage = event.getFinalDamage();
+
+        damage = damage / 2;
+
         boolean death = status.removeHP(damage);
         event.setDamage(0d);
         if(!death) { //death

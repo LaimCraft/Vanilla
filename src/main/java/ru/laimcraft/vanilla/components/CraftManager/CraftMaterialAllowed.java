@@ -11,6 +11,9 @@ public class CraftMaterialAllowed {
         materials = new ArrayList<>();
         materials.add(Material.REDSTONE_BLOCK);
         materials.add(Material.LAPIS_BLOCK);
+        materials.add(Material.ELYTRA);
+        materials.add(Material.ENCHANTED_BOOK);
+        materials.add(Material.DIAMOND_BLOCK);
     }
 
     public List<Material> getMaterials() {

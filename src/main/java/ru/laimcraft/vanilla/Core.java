@@ -1,5 +1,6 @@
 package ru.laimcraft.vanilla;
 
+import io.papermc.paper.text.PaperComponents;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.laimcraft.vanilla.components.BlockInventory;

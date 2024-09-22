@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -69,6 +70,12 @@ public class MagicCraftingTable {
                     status.removeXP(5000);
                     status.addMaxHP(1);
                     return;
+                case "elytra":
+                    ItemStack itemStack = new ItemStack(Material.ELYTRA);
+                    itemStack.addEnchantment(Enchantment.UNBREAKING, 3);
+                    itemStack.addEnchantment(Enchantment.MENDING, 1);
+                    dropItem(itemStack);
+                    return;
                 default:
                     return;
             }
@@ -94,5 +101,9 @@ public class MagicCraftingTable {
                 }
             }
         }
+    }
+
+    private void dropItem(ItemStack item) {
+        location.getWorld().dropItem(location, item);
     }
 }

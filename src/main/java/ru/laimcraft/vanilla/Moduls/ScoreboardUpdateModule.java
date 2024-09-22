@@ -1,25 +1,13 @@
 package ru.laimcraft.vanilla.Moduls;
 
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.numbers.BlankFormat;
-import net.minecraft.network.protocol.game.ClientboundSetDisplayObjectivePacket;
-import net.minecraft.network.protocol.game.ClientboundSetObjectivePacket;
-import net.minecraft.network.protocol.game.ClientboundSetScorePacket;
-import net.minecraft.world.scores.Objective;
-import net.minecraft.world.scores.Scoreboard;
-import net.minecraft.world.scores.criteria.ObjectiveCriteria;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_21_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import ru.laimcraft.utils.Utils;
 import ru.laimcraft.vanilla.Core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static net.minecraft.world.scores.DisplaySlot.SIDEBAR;
 
 public class ScoreboardUpdateModule {
     private Core core;
@@ -28,7 +16,7 @@ public class ScoreboardUpdateModule {
     public ScoreboardUpdateModule(Core core) {
         this.core = core; start();}
     private void start() {
-        for(Player player : Bukkit.getOnlinePlayers()) {
+        /*for(Player player : Bukkit.getOnlinePlayers()) {
             CraftPlayer craftPlayer = (CraftPlayer) player;
             Scoreboard scoreboard = new Scoreboard();
             Objective objective = scoreboard.addObjective(craftPlayer.getName(), ObjectiveCriteria.AIR, Component.nullToEmpty(title),
@@ -43,7 +31,7 @@ public class ScoreboardUpdateModule {
                 ), Optional.ofNullable(objective.numberFormat())
                         ), craftPlayer);
             }
-        }
+        }*/
     }
 
     private List<String> getLine(Player player) {
