@@ -21,7 +21,7 @@ public class PlayerStatus {
     private int xp;
     private double hp;
     private int MaxHP;
-    private int mp;
+    private double mp;
     private int MaxMP;
     private int hunger;
     private int MaxHunger;
@@ -72,7 +72,7 @@ public class PlayerStatus {
     public int getXP() {return xp;}
     public double getHP() {return hp;}
     public int getMaxHP() {return MaxHP;}
-    public int getMP() {return mp;}
+    public double getMP() {return mp;}
     public int getMaxMP() {return MaxMP;}
     public int getHunger() {return hunger;}
     public int getMaxHunger() {return MaxHunger;}
@@ -127,15 +127,11 @@ public class PlayerStatus {
         new MySQLVanillaPlayer().add(playerName, "MaxHP", MaxHP);
         this.MaxHP = this.MaxHP + MaxHP;}
 
-    public void addMP(int mp) {
-        if((this.mp + mp) > this.MaxMP) {
-            new MySQLVanillaPlayer().add(playerName, "MP", this.MaxMP);
-            this.mp = MaxMP;
-            return;}
+    public void addMP(double mp) {
         new MySQLVanillaPlayer().add(playerName, "MP", mp);
         this.mp = this.mp + mp;}
 
-    public boolean removeMP(int mp) { // false = no MP
+    public boolean removeMP(double mp) { // false = no MP
         if(this.mp < mp) return false;
         new MySQLVanillaPlayer().remove(playerName, "MP", mp);
         this.mp = this.mp - mp; return true;}

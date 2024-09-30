@@ -29,7 +29,7 @@ public class MySQLVanillaPlayer {
                         resultSet.getInt(3),
                         resultSet.getDouble(4),
                         resultSet.getInt(5),
-                        resultSet.getInt(6),
+                        resultSet.getDouble(6),
                         resultSet.getInt(7),
                         resultSet.getInt(8),
                         resultSet.getInt(9),

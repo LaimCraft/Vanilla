@@ -1,18 +1,17 @@
 package ru.laimcraft.vanilla.events.inventory;
 
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.persistence.PersistentDataType;
-import ru.laimcraft.vanilla.components.auth.AuthChecker;
-import ru.laimcraft.vanilla.Core;
 import ru.laimcraft.vanilla.components.namespacedkeys.ItemKey;
 
-public class InventoryClickEvents {
-    private Core core;
-    private InventoryClickEvent event;
-    public InventoryClickEvents(Core core, InventoryClickEvent event) {this.core = core; this.event = event; start();}
+public class InventoryClickEvents implements Listener {
 
-    private void start() {
-        if(new AuthChecker(core, event).getResult()) {event.setCancelled(true); return;}
+    private InventoryClickEvent event;
+    @EventHandler
+    private void onInventoryClickEvents(InventoryClickEvent event) {
+        this.event = event;
         if(isNoMovement()) {event.setCancelled(true); return;}
     }
 

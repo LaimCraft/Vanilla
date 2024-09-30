@@ -1,20 +1,16 @@
 package ru.laimcraft.vanilla.events.player;
 
-import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerExpChangeEvent;
-import ru.laimcraft.utils.Utils;
-import ru.laimcraft.vanilla.Core;
-import ru.laimcraft.vanilla.components.auth.AuthChecker;
+import ru.laimcraft.vanilla.Vanilla;
 import ru.laimcraft.vanilla.components.player.PlayerStatus;
 
-public class PlayerExpChangeEvents {
-    private Core core;
-    private PlayerExpChangeEvent event;
-    public PlayerExpChangeEvents(Core core, PlayerExpChangeEvent event) {this.core = core; this.event = event; start();}
+public class PlayerExpChangeEvents implements Listener {
 
-    private void start() {
-        if(new AuthChecker(core, event).getResult()) {event.setAmount(0);return;}
-        PlayerStatus playerStatus = Core.players.get(event.getPlayer().getName().toLowerCase());
+    @EventHandler
+    private void onPlayerExpChangeEvents(PlayerExpChangeEvent event) {
+        PlayerStatus playerStatus = Vanilla.players.get(event.getPlayer().getName());
         playerStatus.addXP(event.getAmount());
         event.setAmount(0);
     }

@@ -6,13 +6,13 @@ public class ResultSetGetPlayer {
     private int xp;
     private double hp;
     private int MaxHP;
-    private int mp;
+    private double mp;
     private int MaxMP;
     private int hunger;
     private int MaxHunger;
     private float saturation;
     private int MaxSaturation;
-    public ResultSetGetPlayer(String playerName, int level, int xp, double hp, int MaxHP, int mp, int MaxMP, int hunger, int MaxHunger, float saturation, int MaxSaturation) {
+    public ResultSetGetPlayer(String playerName, int level, int xp, double hp, int MaxHP, double mp, int MaxMP, int hunger, int MaxHunger, float saturation, int MaxSaturation) {
         this.playerName = playerName;
         this.level = level;
         this.xp = xp;
@@ -45,7 +45,7 @@ public class ResultSetGetPlayer {
         return MaxHP;
     }
 
-    public int getMP() {
+    public double getMP() {
         return mp;
     }
 

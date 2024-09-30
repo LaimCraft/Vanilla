@@ -2,7 +2,6 @@ package ru.laimcraft.vanilla.database.mysql;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import ru.laimcraft.vanilla.Core;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,8 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MySQLBlocks {
-    private Core core;
-    public MySQLBlocks(Core core) {this.core=core;}
 
     public static boolean create(String position, String blockType, String owner) {
         try (Connection connection = DriverManager.getConnection(Settings.host, Settings.user, Settings.password)) {

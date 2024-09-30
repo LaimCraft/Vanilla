@@ -1,32 +1,20 @@
 package ru.laimcraft.vanilla.events.player;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import ru.laimcraft.vanilla.components.auth.AuthRESULT;
-import ru.laimcraft.vanilla.components.auth.AuthType;
-import ru.laimcraft.vanilla.Core;
-import ru.laimcraft.vanilla.Moduls.AuthModule;
+import ru.laimcraft.vanilla.Utils;
+import ru.laimcraft.vanilla.Vanilla;
 import ru.laimcraft.vanilla.components.player.CreateAllDataBaseColumns;
-import ru.laimcraft.vanilla.database.mysql.MySQLVanillaPlayer;
+import ru.laimcraft.vanilla.components.player.PlayerStatus;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+public class PlayerJoinEvents implements Listener {
 
-public class PlayerJoinEvents {
-    private Core core;
-    private PlayerJoinEvent event;
-    public PlayerJoinEvents(Core core, PlayerJoinEvent event) {this.core = core; this.event = event; start();}
-
-    private void start() {
+    @EventHandler
+    private void onPlayerJoinEvent(PlayerJoinEvent event) {
         event.setJoinMessage(null);
-        AuthModule authModule = new AuthModule(core, event, AuthType.PlayerJoin);
-        AuthRESULT authRESULT = authModule.getRESULT();
-        if(authRESULT == AuthRESULT.EXIT) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Системная ошибка в модуле авторизации [n0001]");
-            event.getPlayer().kickPlayer(ChatColor.RED + "Произошла системная ошибка, администрация уже уведомлена о ней \n Но вы можете так же сообщить о ней" +
-                    "в нашем Discord канале: https://discord.gg/YkcDnBZFWj \n или на нашем GitHub https://github.com/LaimCraft/Vanilla "); return;}
-        if(authRESULT == AuthRESULT.IncorrectUsername) return;
+        Vanilla.players.put(event.getPlayer().getName(), new PlayerStatus(event.getPlayer().getName()));
+        Utils.vanillaTabColorUpdate(event.getPlayer());
+        CreateAllDataBaseColumns createAllDataBaseColumns = new CreateAllDataBaseColumns(event.getPlayer());
     }
 }

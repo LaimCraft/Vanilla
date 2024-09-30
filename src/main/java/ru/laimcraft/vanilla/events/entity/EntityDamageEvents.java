@@ -1,20 +1,17 @@
 package ru.laimcraft.vanilla.events.entity;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityRegainHealthEvent;
-import ru.laimcraft.vanilla.Core;
 import ru.laimcraft.vanilla.events.player.PlayerDamageEvents;
-import ru.laimcraft.vanilla.events.player.PlayerRegainHealthEvents;
 
-public class EntityDamageEvents {
-    private Core core;
-    private EntityDamageEvent event;
-    public EntityDamageEvents(Core core, EntityDamageEvent event) {this.core = core; this.event = event; start();}
+public class EntityDamageEvents implements Listener {
 
-    private void start() {
+    @EventHandler
+    private void onEntityDamageEvents(EntityDamageEvent event) {
         if(event.getEntity() instanceof Player player) {
-            new PlayerDamageEvents(core, event, player);
+            new PlayerDamageEvents(event, player);
         return;}
     }
 }

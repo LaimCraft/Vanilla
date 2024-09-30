@@ -2,17 +2,16 @@ package ru.laimcraft.vanilla.events.player;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
-import ru.laimcraft.vanilla.Core;
+import ru.laimcraft.vanilla.Vanilla;
 import ru.laimcraft.vanilla.components.player.PlayerStatus;
 
 public class PlayerRegainHealthEvents {
-    private Core core;
     private EntityRegainHealthEvent event;
     private Player player;
-    public PlayerRegainHealthEvents(Core core, EntityRegainHealthEvent event, Player player) {this.core = core; this.event = event;
+    public PlayerRegainHealthEvents(EntityRegainHealthEvent event, Player player) {this.event = event;
         this.player = player; start();}
     private void start() {
-        PlayerStatus status = Core.players.get(player.getName().toLowerCase());
+        PlayerStatus status = Vanilla.players.get(player.getName());
         if(status == null) {
             event.setCancelled(true);
             return;}

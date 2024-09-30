@@ -1,15 +1,7 @@
 package ru.laimcraft.vanilla.events.player;
 
-import org.bukkit.event.player.PlayerMoveEvent;
-import ru.laimcraft.vanilla.components.auth.AuthChecker;
-import ru.laimcraft.vanilla.Core;
+import org.bukkit.event.Listener;
 
-public class PlayerMoveEvents {
-    private Core core;
-    private PlayerMoveEvent event;
-    public PlayerMoveEvents(Core core, PlayerMoveEvent event) {this.core = core; this.event = event; start();}
+public class PlayerMoveEvents implements Listener {
 
-    private void start() {
-        if(new AuthChecker(core, event).getResult()) {event.setCancelled(true); return;}
-    }
 }

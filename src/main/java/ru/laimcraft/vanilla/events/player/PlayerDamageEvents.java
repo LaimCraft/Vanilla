@@ -1,20 +1,17 @@
 package ru.laimcraft.vanilla.events.player;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
-import ru.laimcraft.vanilla.Core;
+import ru.laimcraft.vanilla.Vanilla;
 import ru.laimcraft.vanilla.components.player.PlayerStatus;
 
-public class PlayerDamageEvents {
-    private Core core;
+public class PlayerDamageEvents { //Old Version Class
     private EntityDamageEvent event;
     private Player player;
-    public PlayerDamageEvents(Core core, EntityDamageEvent event, Player player) {this.core = core; this.event = event; this.player=player; start();}
+    public PlayerDamageEvents(EntityDamageEvent event, Player player) {this.event = event; this.player=player; start();}
 
     private void start() {
-        PlayerStatus status = Core.players.get(player.getName().toLowerCase());
+        PlayerStatus status = Vanilla.players.get(player.getName());
         if(status == null) {
             event.setCancelled(true);
         return;}

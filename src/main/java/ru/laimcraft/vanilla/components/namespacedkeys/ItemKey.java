@@ -5,6 +5,7 @@ import org.bukkit.NamespacedKey;
 public enum ItemKey {
     NoMovement(new NamespacedKey("vanilla", "item_nomovement")),
     SpecialBlocks(new NamespacedKey("vanilla", "item_specialblocks")),
+    MagicApple(new NamespacedKey("vanilla", "item_magicapple")),
     MagicCraftingTable(new NamespacedKey("vanilla", "item_magiccraftingtable"));
 
     private final NamespacedKey value;

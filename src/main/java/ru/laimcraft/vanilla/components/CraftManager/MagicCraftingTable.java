@@ -1,6 +1,5 @@
 package ru.laimcraft.vanilla.components.CraftManager;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -8,12 +7,10 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import ru.laimcraft.vanilla.Core;
+import ru.laimcraft.vanilla.Vanilla;
 import ru.laimcraft.vanilla.components.player.PlayerStatus;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MagicCraftingTable {
@@ -47,18 +44,18 @@ public class MagicCraftingTable {
             ItemStack item = magicCraftingTable.getItem(i);
             if(item == null) continue;
             if(item.getType() == Material.AIR) continue;
-            if(!Core.craftMaterialAllowed.getMaterials().contains(item.getType())) {
+            if(!Vanilla.craftMaterialAllowed.getMaterials().contains(item.getType())) {
                 location.getWorld().dropItem(location, item);
                 continue;
             }
             if(!items.containsKey(item.getType())) { items.put(item.getType(), item.getAmount()); continue; }
             items.replace(item.getType(), items.get(item.getType()) + item.getAmount());
         }
-        if(Core.crafts.crafts.contains(items)) {
-            String craftResult = Core.crafts.craftList.get(items);
+        if(Vanilla.crafts.crafts.contains(items)) {
+            String craftResult = Vanilla.crafts.craftList.get(items);
             switch (craftResult) {
                 case "health":
-                    PlayerStatus status = Core.players.get(player.getName().toLowerCase());
+                    PlayerStatus status = Vanilla.players.get(player.getName());
                     if(status.getMaxHP() >= (status.getLevel() * 20)) {
                         player.sendMessage(ChatColor.RED + "На вашем уровне вы не можете набрать больше " + (status.getLevel() * 20) + "ХП!");
                         dropItems(items);

@@ -1,15 +1,7 @@
 package ru.laimcraft.vanilla.events.entity;
 
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import ru.laimcraft.vanilla.components.auth.AuthChecker;
-import ru.laimcraft.vanilla.Core;
+import org.bukkit.event.Listener;
 
-public class EntityDamageByEntityEvents {
-    private Core core;
-    private EntityDamageByEntityEvent event;
-    public EntityDamageByEntityEvents(Core core, EntityDamageByEntityEvent event) {this.core = core; this.event = event; start();}
+public class EntityDamageByEntityEvents implements Listener {
 
-    private void start() {
-        if(new AuthChecker(core, event).getResult()) {event.setCancelled(true); return;}
-    }
 }

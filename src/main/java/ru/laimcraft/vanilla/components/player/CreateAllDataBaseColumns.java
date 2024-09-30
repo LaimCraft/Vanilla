@@ -3,19 +3,13 @@ package ru.laimcraft.vanilla.components.player;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import ru.laimcraft.vanilla.Core;
 import ru.laimcraft.vanilla.database.ResultSetGetPlayerFarmer;
 import ru.laimcraft.vanilla.database.mysql.MySQLVanillaPlayer;
 import ru.laimcraft.vanilla.database.mysql.MySQLVanillaPlayerFarmer;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 public class CreateAllDataBaseColumns {
-    private Core core;
     private Player player;
-    public CreateAllDataBaseColumns(Core core, Player player) {
-        this.core = core;
+    public CreateAllDataBaseColumns(Player player) {
         this.player = player;
         vanillaPlayer(new MySQLVanillaPlayer().getPlayerName(player.getName()));
         vanillaFarmer(new MySQLVanillaPlayerFarmer().getPlayer(player.getName()));

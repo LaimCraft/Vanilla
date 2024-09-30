@@ -1,20 +1,17 @@
 package ru.laimcraft.vanilla.Moduls;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import ru.laimcraft.utils.Utils;
-import ru.laimcraft.vanilla.Core;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ScoreboardUpdateModule {
-    private Core core;
+    //private Vanilla core;
     private String title = ChatColor.GREEN + "Статус";
 
-    public ScoreboardUpdateModule(Core core) {
-        this.core = core; start();}
+   // public ScoreboardUpdateModule(Vanilla core) {
+        //this.core = core; start();}
     private void start() {
         /*for(Player player : Bukkit.getOnlinePlayers()) {
             CraftPlayer craftPlayer = (CraftPlayer) player;

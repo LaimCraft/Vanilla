@@ -1,20 +1,20 @@
 package ru.laimcraft.vanilla.events.blocks;
 
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import ru.laimcraft.vanilla.Vanilla;
 import ru.laimcraft.vanilla.components.CraftManager.Items;
-import ru.laimcraft.vanilla.components.auth.AuthChecker;
-import ru.laimcraft.vanilla.Core;
 import ru.laimcraft.vanilla.components.namespacedkeys.ItemKey;
 import ru.laimcraft.vanilla.database.mysql.MySQLBlocks;
 
-public class BlockBreakEvents {
-    private Core core;
-    private BlockBreakEvent event;
-    public BlockBreakEvents(Core core, BlockBreakEvent event) {this.core = core; this.event = event; start();}
+public class BlockBreakEvents implements Listener {
 
-    private void start() {
-        if(new AuthChecker(core, event).getResult()) {event.setCancelled(true); return;}
+    private BlockBreakEvent event;
+    @EventHandler
+    private void onBlockBreakEvent(BlockBreakEvent event) {
+        this.event = event;
         chestRemove();
         if(onSpecialBlockBreak()) {event.setCancelled(true); return;}
     }
@@ -51,13 +51,13 @@ public class BlockBreakEvents {
     }
 
     private void chestRemove() {
-        if(core.blockInventory.getInventoryBlocks().contains(event.getBlock().getType())) {
-            String owner = core.chests.getChestOwner(event.getBlock().getWorld().getName() + ":" +
+        if(Vanilla.blockInventory.getInventoryBlocks().contains(event.getBlock().getType())) {
+            String owner = Vanilla.chests.getChestOwner(event.getBlock().getWorld().getName() + ":" +
                     event.getBlock().getX() + ":" + event.getBlock().getY() + ":" + event.getBlock().getZ());
             if(owner == null || owner.isEmpty()) return;
             if(owner.equalsIgnoreCase("ex")) {event.setCancelled(true);return;}
             if(!owner.equalsIgnoreCase(event.getPlayer().getName())) {event.setCancelled(true); return;}
-            core.chests.removeChest(event.getBlock().getWorld().getName() + ":" + event.getBlock().getX() + ":"
+            Vanilla.chests.removeChest(event.getBlock().getWorld().getName() + ":" + event.getBlock().getX() + ":"
                     + event.getBlock().getY() + ":" + event.getBlock().getZ());}
     }
 }

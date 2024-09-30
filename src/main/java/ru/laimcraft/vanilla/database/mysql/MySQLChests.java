@@ -2,14 +2,11 @@ package ru.laimcraft.vanilla.database.mysql;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import ru.laimcraft.vanilla.Core;
 
 import java.sql.*;
 
 public class MySQLChests {
     private Settings settings = new Settings();
-    private Core core;
-    public MySQLChests(Core core) {this.core=core;}
 
     public boolean create(String position, String owner) {
         try (Connection connection = DriverManager.getConnection(settings.host, settings.user, settings.password)) {

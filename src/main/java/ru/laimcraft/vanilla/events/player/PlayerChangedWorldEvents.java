@@ -1,15 +1,14 @@
 package ru.laimcraft.vanilla.events.player;
 
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
-import ru.laimcraft.utils.Utils;
-import ru.laimcraft.vanilla.Core;
+import ru.laimcraft.vanilla.Utils;
 
-public class PlayerChangedWorldEvents {
-    private Core core;
-    private PlayerChangedWorldEvent event;
-    public PlayerChangedWorldEvents(Core core, PlayerChangedWorldEvent event) {this.core = core; this.event = event; start();}
+public class PlayerChangedWorldEvents implements Listener {
 
-    private void start() {
+    @EventHandler
+    private void onPlayerChangedWorldEvents(PlayerChangedWorldEvent event) {
         Utils.vanillaTabColorUpdate(event.getPlayer());
     }
 }

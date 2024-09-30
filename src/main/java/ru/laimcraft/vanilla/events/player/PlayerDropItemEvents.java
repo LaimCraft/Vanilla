@@ -1,15 +1,7 @@
 package ru.laimcraft.vanilla.events.player;
 
-import org.bukkit.event.player.PlayerDropItemEvent;
-import ru.laimcraft.vanilla.components.auth.AuthChecker;
-import ru.laimcraft.vanilla.Core;
+import org.bukkit.event.Listener;
 
-public class PlayerDropItemEvents {
-    private Core core;
-    private PlayerDropItemEvent event;
-    public PlayerDropItemEvents(Core core, PlayerDropItemEvent event) {this.core = core; this.event = event; start();}
+public class PlayerDropItemEvents implements Listener {
 
-    private void start() {
-        if(new AuthChecker(core, event).getResult()) {event.setCancelled(true); return;}
-    }
 }

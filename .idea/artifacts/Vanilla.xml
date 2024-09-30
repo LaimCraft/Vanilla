@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="Vanilla">
-    <output-path>$USER_HOME$/OneDrive/Рабочий стол/VANILLASERVER/plugins</output-path>
+    <output-path>$PROJECT_DIR$/../../LaimCraft/Servers/Vanilla/plugins</output-path>
     <root id="archive" name="Vanilla.jar">
       <element id="module-output" name="Vanilla" />
       <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
