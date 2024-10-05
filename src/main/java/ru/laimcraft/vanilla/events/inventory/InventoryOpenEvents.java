@@ -45,7 +45,7 @@ public class InventoryOpenEvents implements Listener {
         MagicCraftingTable magicCraftingTable = new MagicCraftingTable(
                 (Player) event.getPlayer(), event.getInventory().getLocation()
         );
-        Vanilla.MagicCraftingTablePlayers.put(event.getPlayer().getName().toLowerCase(), magicCraftingTable);
+        Vanilla.MagicCraftingTablePlayers.put(event.getPlayer().getName(), magicCraftingTable);
         return true;
     }
 }

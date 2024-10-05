@@ -22,3 +22,12 @@ commands:
     aliases:
       - utpa
     usage: "/utpa"
+  region:
+    aliases:
+      - region
+      - rg
+    usage: "/region"
+  check:
+    aliases:
+      - check
+    usage: "/check"

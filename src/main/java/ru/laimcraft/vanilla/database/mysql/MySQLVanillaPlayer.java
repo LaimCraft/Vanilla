@@ -2,6 +2,7 @@ package ru.laimcraft.vanilla.database.mysql;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import ru.laimcraft.vanilla.components.regions.RegionFlagResult;
 import ru.laimcraft.vanilla.database.ResultSetGetPlayer;
 
 import java.sql.*;
@@ -118,6 +119,32 @@ public class MySQLVanillaPlayer {
         try (Connection connection = DriverManager.getConnection(settings.host, settings.user, settings.password)) {
             PreparedStatement ps = connection.prepareStatement("UPDATE `vanilla`.`players` SET `"+parameter+"` = "+parameter+" - ? WHERE player = ?;");
             ps.setDouble(1, amount);
+            ps.setString(2, login);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Bukkit.getConsoleSender().sendMessage("LaimCraft -> MySQL Error: " + ex.toString());}}
+
+    public static RegionFlagResult getIgnoreRegionMessage(String login) {
+        try (Connection connection = DriverManager.getConnection(Settings.host, Settings.user, Settings.password)) {
+            ResultSet rs = connection.createStatement().executeQuery("SELECT `RegionMessage` FROM `vanilla`.`players` WHERE player = '"+login+"';");
+            while (rs.next()) {
+                return RegionFlagResult.get(rs.getString(1));
+            }return RegionFlagResult.NULL;
+        } catch (Exception ex) {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL ERROR: " + ex);
+            return RegionFlagResult.Ex;}}
+
+    public static void changeIgnoreRegionMessage(String login) {
+        try (Connection connection = DriverManager.getConnection(Settings.host, Settings.user, Settings.password)) {
+            PreparedStatement ps = connection.prepareStatement("UPDATE `vanilla`.`players` SET `RegionMessage` = ? WHERE player = ?;");
+            RegionFlagResult result;
+            result = getIgnoreRegionMessage(login);
+            String newIgnoreRegionMessage = null;
+            if(result == RegionFlagResult.NULL) return;
+            if(result == RegionFlagResult.Ex) return;
+            if(result == RegionFlagResult.Yes) newIgnoreRegionMessage = RegionFlagResult.No.getResult();
+            if(result == RegionFlagResult.No) newIgnoreRegionMessage = RegionFlagResult.Yes.getResult();
+            ps.setString(1, newIgnoreRegionMessage);
             ps.setString(2, login);
             ps.executeUpdate();
         } catch (Exception ex) {

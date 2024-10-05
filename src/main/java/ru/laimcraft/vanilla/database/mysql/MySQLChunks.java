@@ -2,15 +2,66 @@ package ru.laimcraft.vanilla.database.mysql;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import ru.laimcraft.vanilla.components.regions.RegionFlagResult;
+import org.bukkit.Chunk;
+import ru.laimcraft.vanilla.components.regions.RegionChunk;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class MySQLAccounts {
-    private Settings settings = new Settings();
+public class MySQLChunks {
 
-    public boolean create(String login, String password) {
+    // null - Чанк не запревачен
+    // ex - ОШИБКА В БАЗЕ ДАННЫХ!
+    // Любое другое значение = Чанк запревачен
+    public static String getRegion(String world, int x, int z) {
+        String position = world + ":" + x + ":" + z;
+        try (Connection connection = DriverManager.getConnection(Settings.host, Settings.user, Settings.password)) {
+            ResultSet resultSet = connection.createStatement().executeQuery("SELECT `region` FROM `vanilla`.`chunks` WHERE position = '"+position+"';");
+            while (resultSet.next()) {
+                return resultSet.getString(1);
+            }return null;
+        } catch (Exception ex) {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL ERROR: " + ex);
+            return "ex";}}
+
+    public static List<RegionChunk> getChunks(String region) {
+        try (Connection connection = DriverManager.getConnection(Settings.host, Settings.user, Settings.password)) {
+            ResultSet rs = connection.createStatement().executeQuery("SELECT position FROM `vanilla`.`chunks` WHERE region = '"+region+"';");
+            List<RegionChunk> regionChunks = new ArrayList<>();
+            while (rs.next()) {
+                String[] data = rs.getString(1).split(":");
+                regionChunks.add(
+                        new RegionChunk(region, data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2])));
+            }return regionChunks;
+        } catch (Exception ex) {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL ERROR: " + ex);
+            return null;}}
+
+    public static boolean create(String region, String world, int x, int z) {
+        String position = world + ":" + x + ":" + z;
+        try (Connection connection = DriverManager.getConnection(Settings.host, Settings.user, Settings.password)) {
+            connection.createStatement().executeUpdate("INSERT INTO `vanilla`.`chunks` (`position`, `region`) VALUES (" +
+                    "'"+position+"', '"+region+"');");
+            return true;
+        } catch (SQLException ex) {
+            if(getRegion(world, x, z).equals(region)) return true;
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL ERROR: " + ex);
+            return false;}}
+
+    public static void delete(String world, int x, int z) {
+        String position = world + ":" + x + ":" + z;
+        try (Connection connection = DriverManager.getConnection(Settings.host, Settings.user, Settings.password)) {
+            connection.createStatement().execute("DELETE FROM `vanilla`.`chunks` WHERE (`position` = '"+position+"');");
+        } catch (SQLException ex) {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL ERROR: " + ex);
+        }}
+
+
+
+
+    /*public boolean create(String login, String password) {
         try (Connection connection = DriverManager.getConnection(settings.host, settings.user, settings.password)) {
             Date date = new Date();
             connection.createStatement().executeUpdate("INSERT INTO `laimcraft`.`accounts` (`login`, `password`, `regdate`, `authdate`) VALUES (" +
@@ -29,7 +80,6 @@ public class MySQLAccounts {
         } catch (Exception ex) {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL ERROR: " + ex);
             return "ex";}}
-
 
     public int getBalance(String Login) {
         try (Connection connection = DriverManager.getConnection(settings.host, settings.user, settings.password)) {
@@ -94,6 +144,5 @@ public class MySQLAccounts {
             return true;
         } catch (Exception ex) {
             Bukkit.getConsoleSender().sendMessage("LaimCraft -> MySQL Error: " + ex.toString());
-            return false;}}
-
+            return false;}}*/
 }

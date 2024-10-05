@@ -24,7 +24,31 @@ public class Utils {
         if(player == null || player.isEmpty()) return false;
         if(player.length() < 3 || player.length() > 16) return false;
         if(!Pattern.matches("^[a-zA-Z0-9_]+$", player)) return false;
+        //if(Character.isDigit(player.charAt(0))) return false;
+        return true;}
+
+    public static boolean checkRegionName(String player) {
+        if(player == null || player.isEmpty()) return false;
+        if(player.length() < 1 || player.length() > 24) return false;
+        if(!Pattern.matches("^[a-zA-Z0-9_]+$", player)) return false;
         if(Character.isDigit(player.charAt(0))) return false;
+        return true;}
+
+    public static boolean checkRegionNameOtClick(Player player, String regionName) {
+        if(regionName == null || regionName.isEmpty()) {
+            player.sendMessage(ChatColor.RED + "Видимо вы забыли написать название региона или произошла системная ошибка");
+            return false;
+        }
+        if(regionName.length() < 3 || regionName.length() > 24) {
+            player.sendMessage(ChatColor.RED + "Название региона не может быть меньше 3 символов и больше 24 символов!");
+            return false;
+        }
+        if(!Pattern.matches("^[a-zA-Z0-9_]+$", regionName)) {
+            player.sendMessage(ChatColor.RED + "Вы ввели запрещённые символы в название региона");
+            player.sendMessage(ChatColor.GREEN + "Разрещённые символы: " + ChatColor.DARK_GREEN + "a-z, A-Z, 0-9, _");
+            return false;
+        }
+        //if(Character.isDigit(regionName.charAt(0))) return false;
         return true;}
 
     public static boolean checkInteger(String Integer) {

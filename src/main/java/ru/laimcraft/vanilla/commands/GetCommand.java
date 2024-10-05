@@ -1,16 +1,14 @@
 package ru.laimcraft.vanilla.commands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import ru.laimcraft.vanilla.Vanilla;
 import ru.laimcraft.vanilla.components.CraftManager.Items;
 
 import java.util.regex.Pattern;
 
-public class getCommand implements CommandExecutor {
+public class GetCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
         if(!(sender instanceof Player player)) return true;

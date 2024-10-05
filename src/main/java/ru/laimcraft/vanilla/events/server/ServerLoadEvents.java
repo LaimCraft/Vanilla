@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityDamageByBlockEvent;
+import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.server.ServerLoadEvent;
@@ -32,6 +34,7 @@ public class ServerLoadEvents implements Listener {
     private void onLoad(ServerLoadEvent event) {
         for(Player player : Bukkit.getOnlinePlayers()) {
             Vanilla.players.put(player.getName(), new PlayerStatus(player.getName()));
+            Vanilla.damageController.put(player.getName(), new Date().getTime());
             CreateAllDataBaseColumns createAllDataBaseColumns = new CreateAllDataBaseColumns(player);
         }
     }
@@ -46,7 +49,7 @@ public class ServerLoadEvents implements Listener {
 
     private List<ItemStack> lootGenerator() {
         List<ItemStack> items = new ArrayList<>();
-        items.add(Items.getMagicApple());
+        items.add(Items.getMagicAppleMaxMP());
         return items;
     }
 
@@ -108,4 +111,7 @@ public class ServerLoadEvents implements Listener {
         return;} Bukkit.getConsoleSender().sendMessage("ARGUMENT");
         //if(!(event.getBlock() instanceof Leaves leaves)) return;
     }*/
+
+
+
 }

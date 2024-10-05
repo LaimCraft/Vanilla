@@ -8,6 +8,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import ru.laimcraft.vanilla.Vanilla;
 
+import java.util.Date;
+
 public class PlayerQuitEvents implements Listener {
 
     @EventHandler
@@ -15,9 +17,10 @@ public class PlayerQuitEvents implements Listener {
         event.setQuitMessage(null);
         playersHashMapUpdate(event);
         Vanilla.tpa.remove(event.getPlayer().getName());
+        Vanilla.damageController.remove(event.getPlayer().getName());
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player.getName().equals(event.getPlayer().getName())) continue;
-            player.sendMessage(ChatColor.DARK_RED + event.getPlayer().getName());
+            player.sendMessage(ChatColor.DARK_AQUA + "Игрок " + event.getPlayer().getName() + " вышел из игры");
         }
     }
 

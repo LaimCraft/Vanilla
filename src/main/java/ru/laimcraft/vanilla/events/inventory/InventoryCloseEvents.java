@@ -8,16 +8,15 @@ import ru.laimcraft.vanilla.components.CraftManager.MagicCraftingTable;
 
 public class InventoryCloseEvents implements Listener {
 
-    private InventoryCloseEvent event;
     @EventHandler
     private void onInventoryCloseEvents(InventoryCloseEvent event) {
-        magicCraftingTableClose();
+        magicCraftingTableClose(event);
     }
 
-    private void magicCraftingTableClose() {
-        if(!Vanilla.MagicCraftingTablePlayers.containsKey(event.getPlayer().getName().toLowerCase())) return;
-        MagicCraftingTable magicCraftingTable = Vanilla.MagicCraftingTablePlayers.get(event.getPlayer().getName().toLowerCase());
+    private void magicCraftingTableClose(InventoryCloseEvent event) {
+        if(!Vanilla.MagicCraftingTablePlayers.containsKey(event.getPlayer().getName())) return;
+        MagicCraftingTable magicCraftingTable = Vanilla.MagicCraftingTablePlayers.get(event.getPlayer().getName());
         magicCraftingTable.close();
-        Vanilla.MagicCraftingTablePlayers.remove(event.getPlayer().getName().toLowerCase());
+        Vanilla.MagicCraftingTablePlayers.remove(event.getPlayer().getName());
     }
 }

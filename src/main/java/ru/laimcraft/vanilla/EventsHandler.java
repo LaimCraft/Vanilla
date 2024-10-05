@@ -12,6 +12,7 @@ import ru.laimcraft.vanilla.events.entity.EntityDamageByEntityEvents;
 import ru.laimcraft.vanilla.events.entity.EntityDamageEvents;
 import ru.laimcraft.vanilla.events.entity.EntityRegainHealthEvents;
 import ru.laimcraft.vanilla.events.inventory.InventoryClickEvents;
+import ru.laimcraft.vanilla.events.inventory.InventoryCloseEvents;
 import ru.laimcraft.vanilla.events.inventory.InventoryOpenEvents;
 import ru.laimcraft.vanilla.events.player.*;
 import ru.laimcraft.vanilla.events.server.ExplosionPrimeEvents;
@@ -35,7 +36,7 @@ public class EventsHandler {
         register(new EntityRegainHealthEvents());
 
         register(new InventoryClickEvents());
-        register(new InventoryOpenEvents());
+        register(new InventoryCloseEvents());
         register(new InventoryOpenEvents());
 
         register(new PlayerChangedWorldEvents());
