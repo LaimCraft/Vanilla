@@ -68,10 +68,13 @@ public class MagicCraftingTable {
                     status.addMaxHP(1);
                     return;
                 case "elytra":
-                    ItemStack itemStack = new ItemStack(Material.ELYTRA);
-                    itemStack.addEnchantment(Enchantment.UNBREAKING, 3);
-                    itemStack.addEnchantment(Enchantment.MENDING, 1);
-                    dropItem(itemStack);
+                    dropItem(Items.getElytra());
+                    return;
+                case "magicelytra":
+                    dropItem(Items.getMagicElytra());
+                    return;
+                case "light":
+                    dropItem(Items.getLight());
                     return;
                 default:
                     return;

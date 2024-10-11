@@ -1,8 +1,12 @@
 package ru.laimcraft.vanilla.events.server;
 
+import com.destroystokyo.paper.event.server.ServerTickStartEvent;
 import net.coreprotect.CoreProtect;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.block.data.type.Leaves;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -25,6 +29,7 @@ import ru.laimcraft.vanilla.components.MagicItemsTime;
 import ru.laimcraft.vanilla.components.namespacedkeys.ItemKey;
 import ru.laimcraft.vanilla.components.player.CreateAllDataBaseColumns;
 import ru.laimcraft.vanilla.components.player.PlayerStatus;
+import ru.laimcraft.vanilla.database.mysql.MySQLHopperChunks;
 
 import java.util.*;
 
@@ -55,12 +60,20 @@ public class ServerLoadEvents implements Listener {
 
     @EventHandler
     private void onFood(PlayerItemConsumeEvent event) {
+        Double mp = 0d;
         switch (event.getItem().getType()) {
             case APPLE:
                 if(event.getItem().getItemMeta().getPersistentDataContainer()
                         .get(ItemKey.MagicApple.getValue(), PersistentDataType.DOUBLE) == null) return;
-                Double mp = event.getItem().getItemMeta().getPersistentDataContainer()
+                mp = event.getItem().getItemMeta().getPersistentDataContainer()
                         .get(ItemKey.MagicApple.getValue(), PersistentDataType.DOUBLE);
+                Vanilla.players.get(event.getPlayer().getName()).addMP(mp);
+                return;
+            case SWEET_BERRIES:
+                if(event.getItem().getItemMeta().getPersistentDataContainer()
+                        .get(ItemKey.MagicSweetBerries.getValue(), PersistentDataType.DOUBLE) == null) return;
+                mp = event.getItem().getItemMeta().getPersistentDataContainer()
+                        .get(ItemKey.MagicSweetBerries.getValue(), PersistentDataType.DOUBLE);
                 Vanilla.players.get(event.getPlayer().getName()).addMP(mp);
                 return;
             default:
@@ -112,6 +125,19 @@ public class ServerLoadEvents implements Listener {
         //if(!(event.getBlock() instanceof Leaves leaves)) return;
     }*/
 
+    /*@EventHandler
+    private void toTickEvent(ServerTickStartEvent event) {
+        Chunk[] chunks = Bukkit.getWorld("world").getLoadedChunks();
+        for(Chunk chunk : chunks) {
+            //.getChunkChests(World, chunk.getX,
+            // chunk.getZ) Block[]
+            List<Block> blocks = MySQLHopperChunks.getHopperChests(chunk.getWorld().getName(), chunk.getX(), chunk.getZ());
+            if(blocks == null) return;
+            if(blocks.size() == 0) return;
+            for(Block block : blocks) {
+                if(!(block instanceof Chest chest)) return;
 
-
+            }
+        }
+    }*/
 }

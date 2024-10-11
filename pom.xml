@@ -101,5 +101,13 @@
             <version>1.21.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.minecraft.server</groupId>
+            <artifactId>paper-1.21.1</artifactId>
+            <version>1</version>
+            <scope>system</scope>
+            <systemPath>E:\LaimCraft\Servers\Vanilla\versions\1.21.1\paper-1.21.1.jar</systemPath>
+        </dependency>
     </dependencies>
 </project>

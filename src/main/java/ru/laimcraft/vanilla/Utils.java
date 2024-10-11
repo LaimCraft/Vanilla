@@ -4,6 +4,8 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -90,4 +92,43 @@ public class Utils {
         if(world.equalsIgnoreCase("world_the_end")) {
             return ChatColor.GOLD + "";}
         return ChatColor.WHITE + "";}
+
+
+    public static Location getLocation(World world, int x, int y, int z) {
+        Location location = new Location(
+                world,
+                585,
+                63,
+                39
+        );
+        return location;
+    }
+    public static Location getLocation(String worldName, int x, int y, int z) {
+        Location location = new Location(
+                Bukkit.getWorld(worldName),
+                585,
+                63,
+                39
+        );
+        return location;
+    }
+
+    public static Location getLocationUp(Location location) {
+        Location loc = new Location(
+                location.getWorld(),
+                location.getX(),
+                location.getY() + 1,
+                location.getZ()
+        );
+        return loc;
+    }
+    public static Location getLocationDown(Location location) {
+        Location loc = new Location(
+                location.getWorld(),
+                location.getX(),
+                location.getY() - 1,
+                location.getZ()
+        );
+        return loc;
+    }
 }

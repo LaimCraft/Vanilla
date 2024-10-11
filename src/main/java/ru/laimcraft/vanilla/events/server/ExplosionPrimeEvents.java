@@ -8,6 +8,6 @@ public class ExplosionPrimeEvents implements Listener {
 
     @EventHandler
     private void ExplosionPrimeEvents(ExplosionPrimeEvent event) {
-        event.setRadius(0f);
+        //event.setRadius(0f);
     }
 }

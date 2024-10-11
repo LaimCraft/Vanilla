@@ -39,6 +39,9 @@ public final class Vanilla extends JavaPlugin {
         getCommand("utpa").setExecutor(new TPACommand());
         getCommand("check").setExecutor(new CheckCommand());
         //getCommand("tp").setExecutor(new TPCommand());
+
+
+        net.mine
     }
 
     @Override

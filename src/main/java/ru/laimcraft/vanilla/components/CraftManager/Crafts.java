@@ -13,8 +13,12 @@ public class Crafts {
     public Crafts() {
         crafts.add(health());
         crafts.add(elytra());
+        crafts.add(magicElytra());
+        crafts.add(light());
         craftList.put(health(), "health");
         craftList.put(elytra(), "elytra");
+        craftList.put(magicElytra(), "magicelytra");
+        craftList.put(light(), "light");
     }
 
     private HashMap<Material, Integer> health() {
@@ -25,8 +29,21 @@ public class Crafts {
 
     private HashMap<Material, Integer> elytra() {
         HashMap<Material, Integer> craft = new HashMap<>();
-        craft.put(Material.ELYTRA, 1);
-        craft.put(Material.DIAMOND_BLOCK, 19);
+        craft.put(Material.ELYTRA, 4);
+        craft.put(Material.DIAMOND_BLOCK, 16);
+        return craft;
+    }
+
+    private HashMap<Material, Integer> magicElytra() {
+        HashMap<Material, Integer> craft = new HashMap<>();
+        craft.put(Material.ELYTRA, 4);
+        craft.put(Material.NETHERITE_INGOT, 16);
+        return craft;
+    }
+
+    private HashMap<Material, Integer> light() {
+        HashMap<Material, Integer> craft = new HashMap<>();
+        craft.put(Material.TORCH, 20);
         return craft;
     }
 }

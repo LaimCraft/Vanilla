@@ -3,6 +3,7 @@ package ru.laimcraft.vanilla;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import ru.laimcraft.vanilla.events.blocks.BlockBreakEvents;
+import ru.laimcraft.vanilla.events.blocks.ExplodeEvents;
 import ru.laimcraft.vanilla.events.blocks.BlockPlaceEvents;
 import ru.laimcraft.vanilla.events.chat.PlayerChatEvents;
 import ru.laimcraft.vanilla.events.commands.PlayerCommandPreprocessEvents;
@@ -23,6 +24,7 @@ public class EventsHandler {
     public EventsHandler() {
         register(new BlockBreakEvents());
         register(new BlockPlaceEvents());
+        register(new ExplodeEvents());
 
         register(new PlayerChatEvents());
 

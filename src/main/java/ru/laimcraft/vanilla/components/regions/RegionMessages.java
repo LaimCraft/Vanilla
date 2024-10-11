@@ -3,16 +3,21 @@ package ru.laimcraft.vanilla.components.regions;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import ru.laimcraft.vanilla.commands.RegionCommand;
+import ru.laimcraft.vanilla.database.mysql.MySQLChunks;
+import ru.laimcraft.vanilla.database.mysql.MySQLRegions;
+
+import java.util.List;
 
 public class RegionMessages {
-    public static int regionCreateSpawn = 256;
-    public static int regionChunkSpawn = 8;
+    public static int regionCreateSpawn = 64;
+    public static int regionChunkSpawn = 16;
     public static int spawnRadius = 62;
-    public static double chunkRent = 0.05d;
+    public static double chunkRent = 0.1d;
     public static int regionCreate = 128;
     public static int regionChunk = 1;
 
     public static void sendRegionCostMessage(Player player) {
+        player.sendMessage(ChatColor.RED + "Информация об цене привата устарела! " + "create " + regionCreateSpawn + " new Chunk " + regionChunkSpawn);
         player.sendMessage(ChatColor.DARK_GREEN + "Цена создания региона зависит от того где вы его хотите создать");
         player.sendMessage(ChatColor.GOLD + "Есть территория спавна где цена на создание региона x2 и цена привата чанка x8");
         player.sendMessage(ChatColor.GOLD + "Цены на спавне:");
@@ -74,11 +79,57 @@ public class RegionMessages {
         player.sendMessage(ChatColor.RED + "При попытке создания региона произошла ошибка обратитесь к администрации!");
     }
 
+    public static void regionError(Player player, String debugInfo) {
+        player.sendMessage(ChatColor.RED + "При попытке выполнения команды произошла обшибка обратитесь к администрации!");
+        player.sendMessage(ChatColor.GOLD + "debugInfo: " + debugInfo);
+    }
+
     public static void regionCreated(Player player) {
         player.sendMessage(ChatColor.DARK_GREEN + "Вы успешно создали регион!");
     }
 
     public static void regionNoCreated(Player player) {
         player.sendMessage(ChatColor.RED + "Такой регион уже существует!");
+    }
+
+    public static void regionOtherChunk(Player player) {
+        player.sendMessage(ChatColor.RED + "Такой региона не существует но вы пытаетесь заприватить чужой чанк попробуйте где то в другом месте!");
+    }
+
+    public static void regionCreateNoMP(Player player, int mp) {
+        player.sendMessage(ChatColor.DARK_AQUA + "У вас недостаточно маны для создания региона вам нужно " + mp);
+    }
+
+    public static void chunkCreateNoMP(Player player, int mp) {
+        player.sendMessage(ChatColor.DARK_AQUA + "У вас недостаточно маны для привата чанка вам нужно " + mp);
+    }
+
+    public static void payDayMessage(Player player) {
+        player.sendMessage(ChatColor.DARK_AQUA + "Каждый ваш регион поглощает ману для своего существования оно зависит от кол-ва чанков которые вы заприватили");
+        player.sendMessage(ChatColor.AQUA + "На данный момент цена за поддержание привата одного чанка состояляет " + chunkRent + "" +
+                "\nP.s. Цена не будет выходить из диапазона 0.1-0.01 ед. маны в день(Если экономика маны не будет переделана)");
+        int chunkAmount = 0;
+        double mp = 0;
+        List<String> regions = MySQLRegions.getRegions(player.getName());
+        if(regions.size() == 0) {
+            player.sendMessage(ChatColor.DARK_GRAY + "Ваше потребление маны в день: " + mp + "mp");
+        return;}
+        for(String region : regions) {
+            chunkAmount = chunkAmount + MySQLChunks.getChunks(region).size();}
+        mp = chunkAmount * chunkRent;
+        player.sendMessage(ChatColor.DARK_GRAY + "Ваше потребление маны в день: " + mp + "mp");
+    }
+
+    public static void chunkCost(Player player) {
+        player.sendMessage(ChatColor.DARK_AQUA + "Цена привата одного чанка состовляет " + regionChunkSpawn + "ед. маны");
+    }
+
+    public static void chunkAddMessage(Player player) {
+        player.sendMessage(ChatColor.DARK_AQUA + "Для привата чанка необходимо " + regionChunkSpawn + "ед. маны");
+        player.sendMessage(ChatColor.GOLD + "Введите /region chunk add <Название региона>");
+    }
+
+    public static void regionNo(Player player) {
+        player.sendMessage(ChatColor.RED + "Региона с таким названием не существует!");
     }
 }

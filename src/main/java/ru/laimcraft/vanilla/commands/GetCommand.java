@@ -16,10 +16,19 @@ public class GetCommand implements CommandExecutor {
         if(args.length == 0) return true;
         switch (args[0].toLowerCase()) {
             case "magicapple":
-                player.getInventory().addItem(Items.getMagicApple());
+                player.getInventory().addItem(Items.getMagicAppleMaxMP());
                 return true;
             case "magiccraftingtable":
                 player.getInventory().addItem(Items.getMagicCraftingTable());
+                return true;
+            case "elytra":
+                player.getInventory().addItem(Items.getElytra());
+                return true;
+            case "magicelytra":
+                player.getInventory().addItem(Items.getMagicElytra());
+                return true;
+            case "magicsweetberries":
+                player.getInventory().addItem(Items.getMagicSweetBerriesMaxMP());
             default:
                 return true;
         }

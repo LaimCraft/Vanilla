@@ -15,6 +15,8 @@ public class CraftMaterialAllowed {
         materials.add(Material.ELYTRA);
         materials.add(Material.ENCHANTED_BOOK);
         materials.add(Material.DIAMOND_BLOCK);
+        materials.add(Material.TORCH);
+        materials.add(Material.NETHERITE_INGOT);
     }
 
     public List<Material> getMaterials() {

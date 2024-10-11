@@ -1,11 +1,19 @@
 package ru.laimcraft.vanilla.commands;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.*;
+import org.bukkit.block.*;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.structure.Mirror;
+import org.bukkit.block.structure.StructureRotation;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.VoxelShape;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import ru.laimcraft.vanilla.Utils;
 import ru.laimcraft.vanilla.Vanilla;
 import ru.laimcraft.vanilla.components.CraftManager.Items;
 import ru.laimcraft.vanilla.database.mysql.MySQLAccounts;
@@ -18,6 +26,23 @@ public class TPACommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
         if(!(sender instanceof Player player)) return true;
         if(!player.getName().equals("limeworld")) return true;
+        if(1 == 1) {
+            Location location = new Location(
+                    player.getWorld(),
+                    585,
+                    63,
+                    39
+            );
+
+            Block block = player.getWorld().getBlockAt(location);
+            boolean view = false;
+            if(Utils.getLocationDown(location).getBlock().getType() == null) return true;
+            if(Utils.getLocationDown(location).getBlock().getType() == Material.AIR) {
+                view = true;
+            }
+            if(view == true) return true;
+            block.setType(Material.STONE);
+        return true;}
         if(args.length == 0 || args.length > 1) {
             sender.sendMessage(ChatColor.GREEN + "/tpa <Ник игрока>");
         }

@@ -1,11 +1,16 @@
 package ru.laimcraft.vanilla.events.blocks;
 
+import com.destroystokyo.paper.event.block.BlockDestroyEvent;
+import io.papermc.paper.event.block.BlockBreakBlockEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import ru.laimcraft.vanilla.Vanilla;
 import ru.laimcraft.vanilla.components.CraftManager.Items;
 import ru.laimcraft.vanilla.components.namespacedkeys.ItemKey;
@@ -102,5 +107,15 @@ public class BlockBreakEvents implements Listener {
             if(!owner.equalsIgnoreCase(event.getPlayer().getName())) {event.setCancelled(true); return;}
             Vanilla.chests.removeChest(event.getBlock().getWorld().getName() + ":" + event.getBlock().getX() + ":"
                     + event.getBlock().getY() + ":" + event.getBlock().getZ());}
+    }
+
+    @EventHandler (ignoreCancelled = true)
+    private void onSweetBerries(BlockBreakEvent event) {
+        if (1 == 1) return;
+        if(event.getBlock() == null || event.getBlock().getType() == null) return;
+        if(event.getBlock().getType() != Material.SWEET_BERRY_BUSH) return;
+        //if(event.getBlock().get)
+        event.setDropItems(false);
+        event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), Items.getMagicSweetBerriesMaxMP());
     }
 }
