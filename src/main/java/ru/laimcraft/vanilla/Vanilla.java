@@ -1,11 +1,16 @@
 package ru.laimcraft.vanilla;
 
+import net.minecraft.core.BlockPos;
+import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.laimcraft.vanilla.commands.*;
 import ru.laimcraft.vanilla.components.BlockInventory;
 import ru.laimcraft.vanilla.components.CraftManager.CraftMaterialAllowed;
 import ru.laimcraft.vanilla.components.CraftManager.Crafts;
 import ru.laimcraft.vanilla.components.CraftManager.MagicCraftingTable;
+import ru.laimcraft.vanilla.components.Entity.IIPlayer;
 import ru.laimcraft.vanilla.components.player.PlayerStatus;
 import ru.laimcraft.vanilla.database.mysql.MySQLAccounts;
 import ru.laimcraft.vanilla.database.mysql.MySQLChestAccess;
@@ -40,8 +45,6 @@ public final class Vanilla extends JavaPlugin {
         getCommand("check").setExecutor(new CheckCommand());
         //getCommand("tp").setExecutor(new TPCommand());
 
-
-        net.mine
     }
 
     @Override

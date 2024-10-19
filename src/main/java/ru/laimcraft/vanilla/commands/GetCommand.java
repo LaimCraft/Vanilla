@@ -1,10 +1,15 @@
 package ru.laimcraft.vanilla.commands;
 
+import net.minecraft.core.BlockPos;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Player;
 import ru.laimcraft.vanilla.components.CraftManager.Items;
+import ru.laimcraft.vanilla.components.Entity.IIPlayer;
 
 import java.util.regex.Pattern;
 
@@ -13,7 +18,8 @@ public class GetCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
         if(!(sender instanceof Player player)) return true;
         if(!player.getName().equals("limeworld")) return true;
-        if(args.length == 0) return true;
+        if(args.length == 0) {
+        return true;}
         switch (args[0].toLowerCase()) {
             case "magicapple":
                 player.getInventory().addItem(Items.getMagicAppleMaxMP());
