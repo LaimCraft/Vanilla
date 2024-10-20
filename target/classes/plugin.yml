@@ -1,5 +1,5 @@
 name: Vanilla
-version: '1.1.0'
+version: '1.2.0'
 main: ru.laimcraft.vanilla.Vanilla
 api-version: '1.21'
 load: STARTUP
@@ -12,22 +12,4 @@ commands:
     aliases:
       - chest
       - c
-    usage: "/chest <add/remove> <player>"
-  get:
-    aliases:
-      - get
-      - getitem
-    usage: "/get"
-  utpa:
-    aliases:
-      - utpa
-    usage: "/utpa"
-  region:
-    aliases:
-      - region
-      - rg
-    usage: "/region"
-  check:
-    aliases:
-      - check
-    usage: "/check"
+    usage: "/chest <add/remove/list> <player>"
