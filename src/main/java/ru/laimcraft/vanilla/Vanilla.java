@@ -1,6 +1,5 @@
 package ru.laimcraft.vanilla;
 
-import net.minecraft.world.entity.monster.Zombie;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.laimcraft.vanilla.mysql.MySQLAccounts;
 import ru.laimcraft.vanilla.mysql.MySQLChestAccess;
@@ -14,6 +13,7 @@ public final class Vanilla extends JavaPlugin {
     public static BlockInventory blockInventory = new BlockInventory();
     public static List<String> chestModePlayers = new ArrayList<>();
     public static MySQLChestAccess chestAccess = new MySQLChestAccess();
+    public static OnlineListener onlineListener = new OnlineListener();
     public static MySQLChests chests = new MySQLChests();
     public static Vanilla instance;
     @Override
