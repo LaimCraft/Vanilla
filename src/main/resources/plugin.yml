@@ -13,3 +13,43 @@ commands:
       - chest
       - c
     usage: "/chest <add/remove/list> <player>"
+  proverka:
+    aliases:
+      - proverka
+    usage: "/proverka"
+    permission: laimcraft.vanilla.proverka
+  adminmode:
+      aliases:
+        - adminmode
+      usage: "/adminmode"
+      permission: laimcraft.vanilla.adminmode
+  fly:
+      aliases:
+        - fly
+      usage: "/fly"
+      permission: laimcraft.vanilla.fly
+  gm:
+      aliases:
+        - gm
+      usage: "/gm"
+      permission: laimcraft.vanilla.gm
+  kick:
+      aliases:
+        - kick
+      usage: "/kick"
+      permission: laimcraft.vanilla.kick
+  mute:
+    aliases:
+      - mute
+    usage: "/mute"
+    permission: laimcraft.vanilla.mute
+  ban:
+    aliases:
+      - ban
+    usage: "/ban"
+    permission: laimcraft.vanilla.ban
+  stop:
+    aliases:
+      stop
+    usage: "/stop"
+    permission: laimcraft.vanilla.stop

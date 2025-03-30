@@ -1,6 +1,10 @@
 package ru.laimcraft.vanilla;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import ru.laimcraft.vanilla.admin.Proverka;
+import ru.laimcraft.vanilla.admin.commands.FlyCommand;
+import ru.laimcraft.vanilla.admin.commands.StopCommand;
+import ru.laimcraft.vanilla.admin.commands.gmCommand;
 import ru.laimcraft.vanilla.mysql.MySQLAccounts;
 import ru.laimcraft.vanilla.mysql.MySQLChestAccess;
 import ru.laimcraft.vanilla.mysql.MySQLChests;
@@ -21,6 +25,11 @@ public final class Vanilla extends JavaPlugin {
         instance = this;
         new ChestAccess();
         new TabAndChatColorManager();
+        new Proverka();
+
+        getCommand("fly").setExecutor(new FlyCommand());
+        getCommand("gm").setExecutor(new gmCommand());
+        getCommand("stop").setExecutor(new StopCommand());
     }
 
     @Override
