@@ -2,6 +2,7 @@ package ru.laimcraft.vanilla;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.laimcraft.vanilla.admin.Proverka;
+import ru.laimcraft.vanilla.admin.commands.CHCommand;
 import ru.laimcraft.vanilla.admin.commands.FlyCommand;
 import ru.laimcraft.vanilla.admin.commands.StopCommand;
 import ru.laimcraft.vanilla.admin.commands.gmCommand;
@@ -25,11 +26,12 @@ public final class Vanilla extends JavaPlugin {
         instance = this;
         new ChestAccess();
         new TabAndChatColorManager();
-        new Proverka();
+        //new Proverka();
 
         getCommand("fly").setExecutor(new FlyCommand());
         getCommand("gm").setExecutor(new gmCommand());
         getCommand("stop").setExecutor(new StopCommand());
+        getCommand("ch").setExecutor(new CHCommand());
     }
 
     @Override

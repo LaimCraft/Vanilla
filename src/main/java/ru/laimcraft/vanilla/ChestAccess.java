@@ -86,7 +86,6 @@ public class ChestAccess implements Listener, CommandExecutor {
         if(player == null || player.isEmpty()) return false;
         if(player.length() < 3 || player.length() > 16) return false;
         if(!Pattern.matches("^[a-zA-Z0-9_]+$", player)) return false;
-        if(Character.isDigit(player.charAt(0))) return false;
         return true;}
 
     @EventHandler
