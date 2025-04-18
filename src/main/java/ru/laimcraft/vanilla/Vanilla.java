@@ -2,10 +2,7 @@ package ru.laimcraft.vanilla;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.laimcraft.vanilla.admin.Proverka;
-import ru.laimcraft.vanilla.admin.commands.CHCommand;
-import ru.laimcraft.vanilla.admin.commands.FlyCommand;
-import ru.laimcraft.vanilla.admin.commands.StopCommand;
-import ru.laimcraft.vanilla.admin.commands.gmCommand;
+import ru.laimcraft.vanilla.admin.commands.*;
 import ru.laimcraft.vanilla.mysql.MySQLAccounts;
 import ru.laimcraft.vanilla.mysql.MySQLChestAccess;
 import ru.laimcraft.vanilla.mysql.MySQLChests;
@@ -32,6 +29,9 @@ public final class Vanilla extends JavaPlugin {
         getCommand("gm").setExecutor(new gmCommand());
         getCommand("stop").setExecutor(new StopCommand());
         getCommand("ch").setExecutor(new CHCommand());
+        HomeCommand homeCommand = new HomeCommand();
+        getCommand("home").setExecutor(homeCommand);
+        getCommand("sethome").setExecutor(homeCommand);
     }
 
     @Override

@@ -8,6 +8,15 @@ depend:
   - CoreProtect
 website: https://github.com/LaimCraft/Vanilla
 commands:
+  home:
+    aliases:
+      - home
+      - h
+    usage: "/home"
+  sethome:
+    aliases:
+      - sethome
+    usage: "/sethome"
   chest:
     aliases:
       - chest
