@@ -21,8 +21,8 @@ public class HomeCommand implements CommandExecutor, Listener {
 
     public static final String home = "home";
     public static List<UUID> adminModePlayers = new ArrayList<>();
-    public static List<String> banNames = new ArrayList<>(5);
-    public static int maxHomeCount = 3;
+    public static List<String> banNames = new ArrayList<>(4);
+    public static int maxHomeCount = 5;
 
     static {
         banNames.add("list");
@@ -39,42 +39,55 @@ public class HomeCommand implements CommandExecutor, Listener {
         if(s.equals(HomeCommand.home)) {
             switch (home.toLowerCase()) {
                 case "list":
-                    int homeCount = HomeManager.count(player.getName());
-                    if(homeCount == -1) {
+                    var homes = HomeManager.getAll(player.getName());
+                    if(homes.size() == -1) {
                         player.sendMessage(String.format("%sПроизошла неизвестная ошибка", ChatColor.RED));
                         player.sendMessage(String.format("%sПожалуйста обратитесь к Администрации за помощью", ChatColor.RED));
                         return true;
+                    } else if(homes.isEmpty()) {
+                        player.sendMessage(String.format("%sУ вас нет ни одной точки дома", ChatColor.GOLD));
+                        return true;
                     } else {
-                        var homes = HomeManager.getAll(player.getName());
                         player.sendMessage(String.format("%sСписок точек дома", ChatColor.DARK_GREEN));
                         int i = 1;
                         for(Map.Entry<String, Location> entry : homes.entrySet()) {
                             Location location = entry.getValue();
-                            player.sendMessage(String.format("%s%s. %s x:%s y:%s z:%s  мир ",
+                            player.sendMessage(String.format("%s%s. %s x:%s y:%s z:%s  мир %s%s",
                                     ChatColor.GREEN,
                                     i++,
                                     entry.getKey(),
                                     location.getBlockX(),
                                     location.getBlockY(),
                                     location.getBlockZ(),
-                                    Utils.vanillaGetTabColor(location.getWorld().getName())));
+                                    Utils.vanillaGetTabColor(location.getWorld().getName()),
+                                    location.getWorld().getName()));
                         }
                     }
                     return true;
                 case "delete":
-                    if(HomeManager.delete(player.getName(), home)) {
-                        player.sendMessage(String.format("%sВы успешно удалили точку дома %s", ChatColor.GREEN, home));
+                    String homeName = args[1];
+                    if (homeName == null || homeName.isEmpty()) {
+                        player.sendMessage(String.format("%sПожалуйста введите название дома который хотите удалить", ChatColor.RED));
+                        return true;
+                    }
+                    if(HomeManager.get(player.getName(), homeName).isEmpty()) {
+                        player.sendMessage(String.format("%sУ вас нет точки дома с этим именем", ChatColor.RED));
+                        return true;
+                    }
+                    if(HomeManager.delete(player.getName(), homeName)) {
+                        player.sendMessage(String.format("%sВы успешно удалили точку дома %s", ChatColor.GREEN, homeName));
+                        return true;
                     } else {
                         player.sendMessage(String.format("%sПри попытке удалить точку дома произошла неизвестная ошибка", ChatColor.RED));
                         player.sendMessage(String.format("%sПожалуйста обратитесь к Администрации за помощью", ChatColor.RED));
+                        return true;
                     }
-                    return true;
                 case "help":
                     player.sendMessage(String.format("%sДля создания точки дома введите /sethome <Название>", ChatColor.GOLD));
-                    player.sendMessage(String.format("%Для удаления точки дома введите /home delete <Название>", ChatColor.GOLD));
-                    player.sendMessage(String.format("%Для того что бы узнать сколько у вас точек дома введите /home list", ChatColor.GOLD));
-                    player.sendMessage(String.format("%Для изменения существующей точки дома просто создайте его заново с тем же именем", ChatColor.GOLD));
-                    player.sendMessage(String.format("%Учтите что если вы не водили название точки дома оно будет по умолчанию: home", ChatColor.GOLD));
+                    player.sendMessage(String.format("%sДля удаления точки дома введите /home delete <Название>", ChatColor.GOLD));
+                    player.sendMessage(String.format("%sДля того что бы узнать сколько у вас точек дома введите /home list", ChatColor.GOLD));
+                    player.sendMessage(String.format("%sДля изменения существующей точки дома просто создайте его заново с тем же именем", ChatColor.GOLD));
+                    player.sendMessage(String.format("%sУчтите что если вы не водили название точки дома оно будет по умолчанию: home", ChatColor.GOLD));
                     return true;
                 default:
                     HomeManager.get(player.getName(), home).ifPresentOrElse(player::teleport, () -> {
@@ -161,7 +174,7 @@ public class HomeCommand implements CommandExecutor, Listener {
 
         public static boolean delete(String username, String name) {
             try (Connection connection = DriverManager.getConnection(Settings.host, Settings.user, Settings.password)){
-                PreparedStatement ps = connection.prepareStatement("DELETE FROM `vanilla`.`home` WHERE (`login` = ?) and (`name` = ?);");
+                PreparedStatement ps = connection.prepareStatement("DELETE FROM `vanilla`.`home` WHERE `login` = ? and `name` = ?;");
                 ps.setString(1, username);
                 ps.setString(2, name);
 
@@ -200,7 +213,7 @@ public class HomeCommand implements CommandExecutor, Listener {
         public static HashMap<String, Location> getAll(String username) {
             HashMap<String, Location> locations = new HashMap<>(1, 1.0F);
             try (Connection connection = DriverManager.getConnection(Settings.host, Settings.user, Settings.password)){
-                PreparedStatement ps = connection.prepareStatement("SELECT * FROM `vanilla`.`home` WHERE `login` = ? and `name` = ? LIMIT 10"); //Пропустить это OFFSET 10 после LIMIT
+                PreparedStatement ps = connection.prepareStatement("SELECT * FROM `vanilla`.`home` WHERE `login` = ?"); //Пропустить это OFFSET 10 после LIMIT
                 ps.setString(1, username);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
