@@ -93,6 +93,15 @@ public class Utils {
             return ChatColor.GOLD + "";}
         return ChatColor.WHITE + "";}
 
+    public static String vanillaGetTabColor(String world) {
+        if(world.equalsIgnoreCase("world")) {
+            return ChatColor.DARK_GREEN + "";}
+        if(world.equalsIgnoreCase("world_nether")) {
+            return ChatColor.RED + "";}
+        if(world.equalsIgnoreCase("world_the_end")) {
+            return ChatColor.GOLD + "";}
+        return ChatColor.WHITE + "";}
+
 
     public static Location getLocation(World world, int x, int y, int z) {
         Location location = new Location(

@@ -1,5 +1,6 @@
 package ru.laimcraft.vanilla.admin.commands;
 
+import it.unimi.dsi.fastutil.Hash;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -11,17 +12,24 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import ru.laimcraft.vanilla.Settings;
+import ru.laimcraft.vanilla.Utils;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class HomeCommand implements CommandExecutor, Listener {
 
     public static final String home = "home";
     public static List<UUID> adminModePlayers = new ArrayList<>();
+    public static List<String> banNames = new ArrayList<>(5);
+    public static int maxHomeCount = 3;
+
+    static {
+        banNames.add("list");
+        banNames.add("delete");
+        banNames.add("player");
+        banNames.add("help");
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
@@ -29,12 +37,37 @@ public class HomeCommand implements CommandExecutor, Listener {
 
         final String home = (args.length > 0) ? args[0] : HomeCommand.home;
         if(s.equals(HomeCommand.home)) {
-            switch (home) {
+            switch (home.toLowerCase()) {
                 case "list":
-                    player.sendMessage(String.format("%sСкоро....", ChatColor.GOLD));
+                    int homeCount = HomeManager.count(player.getName());
+                    if(homeCount == -1) {
+                        player.sendMessage(String.format("%sПроизошла неизвестная ошибка", ChatColor.RED));
+                        player.sendMessage(String.format("%sПожалуйста обратитесь к Администрации за помощью", ChatColor.RED));
+                        return true;
+                    } else {
+                        var homes = HomeManager.getAll(player.getName());
+                        player.sendMessage(String.format("%sСписок точек дома", ChatColor.DARK_GREEN));
+                        int i = 1;
+                        for(Map.Entry<String, Location> entry : homes.entrySet()) {
+                            Location location = entry.getValue();
+                            player.sendMessage(String.format("%s%s. %s x:%s y:%s z:%s  мир ",
+                                    ChatColor.GREEN,
+                                    i++,
+                                    entry.getKey(),
+                                    location.getBlockX(),
+                                    location.getBlockY(),
+                                    location.getBlockZ(),
+                                    Utils.vanillaGetTabColor(location.getWorld().getName())));
+                        }
+                    }
                     return true;
                 case "delete":
-                    player.sendMessage(String.format("%sСкоро.... пока что есть лишь перезапись точки дома с названием что вы ввели", ChatColor.GOLD));
+                    if(HomeManager.delete(player.getName(), home)) {
+                        player.sendMessage(String.format("%sВы успешно удалили точку дома %s", ChatColor.GREEN, home));
+                    } else {
+                        player.sendMessage(String.format("%sПри попытке удалить точку дома произошла неизвестная ошибка", ChatColor.RED));
+                        player.sendMessage(String.format("%sПожалуйста обратитесь к Администрации за помощью", ChatColor.RED));
+                    }
                     return true;
                 case "help":
                     player.sendMessage(String.format("%sДля создания точки дома введите /sethome <Название>", ChatColor.GOLD));
@@ -50,6 +83,21 @@ public class HomeCommand implements CommandExecutor, Listener {
                     return true;
             }
         } else {
+            if(banNames.contains(home.toLowerCase())) {
+                player.sendMessage(String.format("%sЭто зарезервированное название под команды home выберите другое", ChatColor.YELLOW));
+                return true;
+            }
+
+            int homeCount = HomeManager.count(player.getName());
+            if(homeCount == -1) {
+                player.sendMessage(String.format("%sПроизошла неизвестная ошибка", ChatColor.RED));
+                player.sendMessage(String.format("%sПожалуйста обратитесь к Администрации за помощью", ChatColor.RED));
+                return true;
+            } if (homeCount >= maxHomeCount) {
+                player.sendMessage(String.format("%sУ вас уже максимальное кол-во точек дома", ChatColor.RED));
+                return true;
+            }
+
             HomeManager.get(player.getName(), home).ifPresentOrElse((location -> {
                 if(HomeManager.change(player.getName(), home, player.getLocation())) {
                     player.sendMessage(String.format("%sЭта точка дома уже существовала по этому её координаты были изменены", ChatColor.GREEN));
@@ -111,6 +159,20 @@ public class HomeCommand implements CommandExecutor, Listener {
             }
         }
 
+        public static boolean delete(String username, String name) {
+            try (Connection connection = DriverManager.getConnection(Settings.host, Settings.user, Settings.password)){
+                PreparedStatement ps = connection.prepareStatement("DELETE FROM `vanilla`.`home` WHERE (`login` = ?) and (`name` = ?);");
+                ps.setString(1, username);
+                ps.setString(2, name);
+
+                ps.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                Bukkit.getConsoleSender().sendMessage(e.getMessage());
+                return false;
+            }
+        }
+
         public static Optional<Location> get(String username, String name) {
             try (Connection connection = DriverManager.getConnection(Settings.host, Settings.user, Settings.password)){
                 PreparedStatement ps = connection.prepareStatement("SELECT * FROM `vanilla`.`home` WHERE `login` = ? and `name` = ?");
@@ -132,6 +194,46 @@ public class HomeCommand implements CommandExecutor, Listener {
             } catch (SQLException e) {
                 Bukkit.getConsoleSender().sendMessage(e.getMessage());
                 return Optional.empty();
+            }
+        }
+
+        public static HashMap<String, Location> getAll(String username) {
+            HashMap<String, Location> locations = new HashMap<>(1, 1.0F);
+            try (Connection connection = DriverManager.getConnection(Settings.host, Settings.user, Settings.password)){
+                PreparedStatement ps = connection.prepareStatement("SELECT * FROM `vanilla`.`home` WHERE `login` = ? and `name` = ? LIMIT 10"); //Пропустить это OFFSET 10 после LIMIT
+                ps.setString(1, username);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    String world = rs.getString("world");
+                    if(world == null || world.isEmpty()) continue;
+                    Location location = new Location(
+                            Bukkit.getWorld(world),
+                            rs.getDouble("x"),
+                            rs.getDouble("y"),
+                            rs.getDouble("z"),
+                            rs.getFloat("yaw"),
+                            rs.getFloat("pitch")
+                    );
+
+                    locations.put(rs.getString("name"), location);
+                } return locations;
+            } catch (SQLException e) {
+                Bukkit.getConsoleSender().sendMessage(e.getMessage());
+                return locations;
+            }
+        }
+
+        public static int count(String username) {
+            try (Connection connection = DriverManager.getConnection(Settings.host, Settings.user, Settings.password)){
+                PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) FROM `vanilla`.`home` WHERE `login` = ?");
+                ps.setString(1, username);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                } return -1;
+            } catch (SQLException e) {
+                Bukkit.getConsoleSender().sendMessage(e.getMessage());
+                return -1;
             }
         }
 
