@@ -45,6 +45,8 @@ public class BlockInventory {
         inventoryBlocks.add(Material.MAGENTA_SHULKER_BOX);
         inventoryBlocks.add(Material.PINK_SHULKER_BOX);
 
+        inventoryBlocks.add(Material.MOSSY_STONE_BRICKS);
+
 
     }
 

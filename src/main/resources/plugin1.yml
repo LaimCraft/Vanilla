@@ -1,7 +1,8 @@
 name: Vanilla
 version: '1.2.0'
 main: ru.laimcraft.vanilla.Vanilla
-api-version: '1.21'
+bootstrapper: ru.laimcraft.vanilla.spi
+api-version: '1.21.1'
 load: STARTUP
 authors: [LaimCraft]
 depend:
@@ -36,7 +37,7 @@ commands:
       aliases:
         - adminmode
       usage: "/adminmode"
-      permission: laimcraft.vanilla.adminmode
+      permission: laimcraft.vanilla.owner
   fly:
       aliases:
         - fly

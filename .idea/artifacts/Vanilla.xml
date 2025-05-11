@@ -3,7 +3,8 @@
     <output-path>$PROJECT_DIR$/../../LaimCraft/Servers/Vanilla/plugins</output-path>
     <root id="archive" name="Vanilla.jar">
       <element id="module-output" name="Vanilla" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/zaxxer/HikariCP/5.1.0/HikariCP-5.1.0.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources" />
     </root>
   </artifact>
 </component>
