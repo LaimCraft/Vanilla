@@ -33,18 +33,19 @@ public final class Vanilla extends JavaPlugin {
         new ChestAccess();
         new TabAndChatColorManager();
         new WorldLoader();
+        new CustomItems();
         //new Proverka();
 
-        //Bukkit.getPluginManager().registerEvents(new Pickaxe3x3(), this);
+        Bukkit.getPluginManager().registerEvents(new Pickaxe3x3(), this);
 
-        /*getCommand("fly").setExecutor(new FlyCommand());
+        getCommand("fly").setExecutor(new FlyCommand());
         getCommand("gm").setExecutor(new gmCommand());
         getCommand("stop").setExecutor(new StopCommand());
         getCommand("ch").setExecutor(new CHCommand());
         HomeCommand homeCommand = new HomeCommand();
         getCommand("home").setExecutor(homeCommand);
         getCommand("sethome").setExecutor(homeCommand);
-        getCommand("adminmode").setExecutor(new AdminModeCommand());*/
+        getCommand("adminmode").setExecutor(new AdminModeCommand());
     }
 
     @Override

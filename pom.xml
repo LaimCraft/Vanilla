@@ -54,9 +54,9 @@
                         </goals>
                         <id>remap-obf</id>
                         <configuration>
-                            <srgIn>org.spigotmc:minecraft-server:1.21.1-R0.1-SNAPSHOT:txt:maps-mojang</srgIn>
+                            <srgIn>org.spigotmc:minecraft-server:1.21.5-R0.1-SNAPSHOT:txt:maps-mojang</srgIn>
                             <reverse>true</reverse>
-                            <remappedDependencies>org.spigotmc:spigot:1.21.1-R0.1-SNAPSHOT:jar:remapped-mojang</remappedDependencies>
+                            <remappedDependencies>org.spigotmc:spigot:1.21.5-R0.1-SNAPSHOT:jar:remapped-mojang</remappedDependencies>
                             <remappedArtifactAttached>true</remappedArtifactAttached>
                             <remappedClassifierName>remapped-obf</remappedClassifierName>
                         </configuration>
@@ -105,10 +105,10 @@
 
         <dependency>
             <groupId>org.minecraft.server</groupId>
-            <artifactId>paper-1.21.1</artifactId>
+            <artifactId>paper-1.21.5</artifactId>
             <version>1</version>
             <scope>system</scope>
-            <systemPath>E:\LaimCraft\Servers\Vanilla\versions\1.21.1\paper-1.21.1.jar</systemPath>
+            <systemPath>E:\LaimCraft\Servers\Vanilla\versions\1.21.5\paper-1.21.5.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -121,6 +121,13 @@
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>5.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>VanillaEnchantment</groupId>
+            <artifactId>Enchantment</artifactId>
+            <version>0.0.1</version>
+            <scope>system</scope>
+            <systemPath>E:\LaimCraft\Servers\Vanilla\plugins\VanillaEnchantment.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

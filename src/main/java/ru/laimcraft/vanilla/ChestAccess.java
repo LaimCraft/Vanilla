@@ -9,13 +9,18 @@ import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.minecart.HopperMinecart;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryPickupItemEvent;
+import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 import ru.laimcraft.vanilla.admin.commands.AdminModeCommand;
 
@@ -24,7 +29,7 @@ import java.util.regex.Pattern;
 public class ChestAccess implements Listener, CommandExecutor {
     public ChestAccess() {
         Bukkit.getPluginManager().registerEvents(this, Vanilla.instance);
-        //Vanilla.instance.getCommand("chest").setExecutor(this);
+        Vanilla.instance.getCommand("chest").setExecutor(this);
     }
 
     @Override
@@ -91,6 +96,18 @@ public class ChestAccess implements Listener, CommandExecutor {
     @EventHandler
     private void onBlockBreakEvent(BlockBreakEvent event) {
         chestRemove(event);
+    }
+
+    @EventHandler
+    public void onItemMove(InventoryMoveItemEvent event) {
+        Inventory destination = event.getDestination();
+        Inventory source = event.getSource();
+        Location location = source.getLocation();
+        if (location == null) return;
+        Material material = location.getBlock().getType();
+        if (material == Material.HOPPER) return;
+        if (!Vanilla.blockInventory.getInventoryBlocks().contains(material)) return;
+        if (destination.getHolder() instanceof HopperMinecart minecart) event.setCancelled(true);
     }
 
     private void chestRemove(BlockBreakEvent event) {

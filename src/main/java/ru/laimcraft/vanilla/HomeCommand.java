@@ -1,6 +1,7 @@
 package ru.laimcraft.vanilla;
 
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.context.ParsedCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.sql.*;
 import java.util.*;
 
-public class HomeCommand {
+public class HomeCommand implements CommandExecutor {
 
     public static final String home = "home";
     public static List<UUID> adminModePlayers = new ArrayList<>();
@@ -29,8 +30,8 @@ public class HomeCommand {
         banNames.add("help");
     }
 
-    public static void onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if(!(sender instanceof final Player player)) return;
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        if(!(sender instanceof final Player player)) return true;
 
         final String home = (args.length > 0) ? args[0] : HomeCommand.home;
         if(s.equals(HomeCommand.home)) {
@@ -40,10 +41,10 @@ public class HomeCommand {
                     if(homes.size() == -1) {
                         player.sendMessage(String.format("%sПроизошла неизвестная ошибка", ChatColor.RED));
                         player.sendMessage(String.format("%sПожалуйста обратитесь к Администрации за помощью", ChatColor.RED));
-                        return;
+                        return true;
                     } else if(homes.isEmpty()) {
                         player.sendMessage(String.format("%sУ вас нет ни одной точки дома", ChatColor.GOLD));
-                        return;
+                        return true;
                     } else {
                         player.sendMessage(String.format("%sСписок точек дома", ChatColor.DARK_GREEN));
                         int i = 1;
@@ -60,24 +61,24 @@ public class HomeCommand {
                                     location.getWorld().getName()));
                         }
                     }
-                    return;
+                    return true;
                 case "delete":
                     String homeName = args[1];
                     if (homeName == null || homeName.isEmpty()) {
                         player.sendMessage(String.format("%sПожалуйста введите название дома который хотите удалить", ChatColor.RED));
-                        return;
+                        return true;
                     }
                     if(HomeManager.get(player.getName(), homeName).isEmpty()) {
                         player.sendMessage(String.format("%sУ вас нет точки дома с этим именем", ChatColor.RED));
-                        return;
+                        return true;
                     }
                     if(HomeManager.delete(player.getName(), homeName)) {
                         player.sendMessage(String.format("%sВы успешно удалили точку дома %s", ChatColor.GREEN, homeName));
-                        return;
+                        return true;
                     } else {
                         player.sendMessage(String.format("%sПри попытке удалить точку дома произошла неизвестная ошибка", ChatColor.RED));
                         player.sendMessage(String.format("%sПожалуйста обратитесь к Администрации за помощью", ChatColor.RED));
-                        return;
+                        return true;
                     }
                 case "help":
                     player.sendMessage(String.format("%sДля создания точки дома введите /sethome <Название>", ChatColor.GOLD));
@@ -85,30 +86,30 @@ public class HomeCommand {
                     player.sendMessage(String.format("%sДля того что бы узнать сколько у вас точек дома введите /home list", ChatColor.GOLD));
                     player.sendMessage(String.format("%sДля изменения существующей точки дома просто создайте его заново с тем же именем", ChatColor.GOLD));
                     player.sendMessage(String.format("%sУчтите что если вы не водили название точки дома оно будет по умолчанию: home", ChatColor.GOLD));
-                    return;
+                    return true;
                 default:
                     HomeManager.get(player.getName(), home).ifPresentOrElse(player::teleport, () -> {
                         player.sendMessage(String.format("%sУ вас нет дома с этим названием", ChatColor.RED));
                     });
-                    return;
+                    return true;
             }
         } else {
             if(banNames.contains(home.toLowerCase())) {
                 player.sendMessage(String.format("%sЭто зарезервированное название под команды home выберите другое", ChatColor.YELLOW));
-                return;
+                return true;
             }
 
             int homeCount = HomeManager.count(player.getName());
             if(homeCount == -1) {
                 player.sendMessage(String.format("%sПроизошла неизвестная ошибка", ChatColor.RED));
                 player.sendMessage(String.format("%sПожалуйста обратитесь к Администрации за помощью", ChatColor.RED));
-                return;
+                return true;
             } if (homeCount >= maxHomeCount) {
                 //home Название которое ввёл игрок
                 Optional<Location> oldHomeLocation = HomeManager.get(player.getName(), home);
                 if(oldHomeLocation.isEmpty()) {
                     player.sendMessage(String.format("%sУ вас уже максимальное кол-во точек дома", ChatColor.RED));
-                    return;
+                    return true;
                 }
             }
 
@@ -128,11 +129,7 @@ public class HomeCommand {
                 }
             });
         }
-        return;
-    }
-
-    public static void onCommand(CommandContext<CommandSourceStack> context) {
-        
+        return true;
     }
 
     public static class HomeManager {

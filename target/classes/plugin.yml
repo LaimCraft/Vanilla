@@ -1,12 +1,12 @@
 name: Vanilla
 version: '1.2.0'
 main: ru.laimcraft.vanilla.Vanilla
-bootstrapper: ru.laimcraft.vanilla.spi
 api-version: '1.21.1'
 load: STARTUP
 authors: [LaimCraft]
 depend:
   - CoreProtect
+  - VanillaEnchantment
 website: https://github.com/LaimCraft/Vanilla
 commands:
   home:
