@@ -6,7 +6,6 @@ load: STARTUP
 authors: [LaimCraft]
 depend:
   - CoreProtect
-  - VanillaEnchantment
 website: https://github.com/LaimCraft/Vanilla
 commands:
   home:

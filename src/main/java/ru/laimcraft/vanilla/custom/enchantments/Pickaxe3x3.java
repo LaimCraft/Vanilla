@@ -1,52 +1,63 @@
 package ru.laimcraft.vanilla.custom.enchantments;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.checkerframework.checker.units.qual.N;
 import ru.laimcraft.vanilla.Vanilla;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static ru.laimcraft.vanillaEnchantment.VanillaEnchantments.pickaxe3x3Enchantment;
+import java.util.Set;
 
 public class Pickaxe3x3 implements Listener {
 
     public static final NamespacedKey tool3X3 = new NamespacedKey("vanilla", "tool3x3");
-
-    /*@EventHandler
-    private void onJoin(PlayerJoinEvent event) {
-        if(event.getPlayer().getName().equals("Lololoshka1621")) {
-            event.getPlayer().kick(Component.text("Software error in working with the server, reinstall the client and try again\n" +
-                    "If it doesn't help, it may be a problem with the network"));
-            Player player = Bukkit.getPlayer("m4dxskeyzed");
-            for (int i = 0; i < 10; i++) {
-                player.sendMessage("ОБИДА АДМИНА АДМИНУ ОБИДНА СКА БЛЯТЬ НАХУЙ БАНИТЬ ЗА ШТО БЛЯТЬ СПАСИТЕ АДМИНА АААААААААААААААААААААААА");
-            }
-        }
-    }*/
-
+    public static final NamespacedKey tool3X3upper = new NamespacedKey("vanilla", "tool3x3upper");
 
     @EventHandler
     public void enchant() {
 
     }
 
+    private static Location lc;
+    @EventHandler
+    private void serverLoad(ServerLoadEvent event) {
+        lc = new Location(Bukkit.getWorld("world"), 589, 62, 32);
+    }
+
+    @EventHandler
+    private void onDropItem(PlayerDropItemEvent event) {
+        if(!event.getPlayer().getName().equals("limeworld")) return;
+        if(event.getPlayer().getLocation().distance(lc) > 1) return;
+        ItemStack item = event.getItemDrop().getItemStack();
+        Set<NamespacedKey> keys = item.getPersistentDataContainer().getKeys();
+        if(keys == null || keys.isEmpty()) return;
+        for(NamespacedKey key : keys) {
+            event.getPlayer().sendMessage(key.toString());
+        }
+    }
+
+    public static void addLore(ItemMeta meta) {
+        List<String> lore = meta.getLore();
+        if (lore == null) lore = new ArrayList<>(1);
+        lore.add(ChatColor.GOLD + "Добыча блоков 3x3");
+        meta.setLore(lore);
+    }
+
     @EventHandler
     public void blockBreakEvent(BlockBreakEvent event) {
         ItemStack item = event.getPlayer().getItemInHand();
-        if(item == null || item.getType() == Material.AIR) return;
+        if (item == null || item.getType() == Material.AIR) return;
         Boolean tool3X3 = item.getPersistentDataContainer().get(Pickaxe3x3.tool3X3, PersistentDataType.BOOLEAN);
-        if(tool3X3 == null || !tool3X3) return;
+        if (tool3X3 == null || !tool3X3) return;
         event.setCancelled(true);
         Location location = event.getPlayer().getLocation();
         Block block = event.getBlock();

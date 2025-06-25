@@ -34,7 +34,6 @@ public final class Vanilla extends JavaPlugin {
         new TabAndChatColorManager();
         new WorldLoader();
         new CustomItems();
-        //new Proverka();
 
         Bukkit.getPluginManager().registerEvents(new Pickaxe3x3(), this);
 
